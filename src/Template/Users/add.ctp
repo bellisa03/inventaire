@@ -17,7 +17,7 @@
             echo $this->Form->input('email', ['class' => 'form-control', 'label' => 'Email']);
         ?>
     </fieldset>
-    
+
     <?= $this->Form->button(__('Sauvegarder')) ?>
     <?= $this->Form->end() ?>
 
