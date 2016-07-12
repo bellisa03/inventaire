@@ -54,7 +54,8 @@ $cakeDescription = 'Inventorix: votre outil d\'inventaire';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Inventorix</a>
+            <a class="navbar-brand" href="#">
+                Inventorix</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">

@@ -1,21 +1,20 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Items'), ['action' => 'index']) ?></li>
+<nav role="navigation" style="padding-bottom: 30px">
+    <ul class="nav nav-pills">
+        <li role="presentation"><?= $this->Html->link(__('Liste du matériel'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
-<div class="items form large-9 medium-8 columns content">
+<div style="padding-bottom: 30px; padding-right: 20px">
     <?= $this->Form->create($item) ?>
-    <fieldset>
-        <legend><?= __('Add Item') ?></legend>
+    <fieldset style="padding-bottom: 30px">
+        <legend><?= __('Ajouter un matériel') ?></legend>
         <?php
-            echo $this->Form->input('date_in', ['empty' => true]);
-            echo $this->Form->input('date_out');
-            echo $this->Form->input('price');
-            echo $this->Form->input('note');
-            echo $this->Form->input('id_equipments');
+            echo $this->Form->input('date_in', ['label' => 'Date d\'achat']);
+            echo $this->Form->input('date_out', ['label' => 'Date de sortie', 'empty' => true]);
+            echo $this->Form->input('price', ['label' => 'Prix']);
+            echo $this->Form->input('note', ['label' => 'Note', 'type' =>'textarea']);
+            echo $this->Form->input('id_equipments', ['label' => 'Type de matériel']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Sauvegarder')) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -49,12 +49,12 @@ class ItemsTable extends Table
 
         $validator
             ->date('date_in')
-            ->allowEmpty('date_in');
+            ->requirePresence('date_in', 'create')
+            ->notEmpty('date_in');
 
         $validator
             ->date('date_out')
-            ->requirePresence('date_out', 'create')
-            ->notEmpty('date_out');
+            ->allowEmpty('date_out');
 
         $validator
             ->decimal('price')

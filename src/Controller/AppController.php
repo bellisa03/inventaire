@@ -27,7 +27,13 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
-
+    /*
+     * Déclaration d'une variable publique qui fait référence à mon template d'aide à la configuration des formulaires.
+     * le fichier se trouve dans config/my_template.php
+     * */
+    public $helpers = [
+        'Form'=>['templates'=>'my_template']
+    ];
     /**
      * Initialization hook method.
      *

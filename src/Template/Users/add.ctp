@@ -10,11 +10,11 @@
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Ajouter un utilisateur') ?></legend>
         <?php
-            echo $this->Form->input('login', ['class' => 'form-control', 'label' => 'Login']);
-            echo $this->Form->input('password', ['class' => 'form-control', 'label' => 'Mot de passe']);
-            echo $this->Form->input('nom', ['class' => 'form-control', 'label' => 'Nom']);
-            echo $this->Form->input('prenom', ['class' => 'form-control', 'label' => 'Prénom']);
-            echo $this->Form->input('email', ['class' => 'form-control', 'label' => 'Email']);
+            echo $this->Form->input('login', ['label' => 'Login']);
+            echo $this->Form->input('password', ['label' => 'Mot de passe']);
+            echo $this->Form->input('nom', ['label' => 'Nom']);
+            echo $this->Form->input('prenom', ['label' => 'Prénom']);
+            echo $this->Form->input('email', ['label' => 'Email']);
         ?>
     </fieldset>
 

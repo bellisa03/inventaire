@@ -8,29 +8,29 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= __('Fiche utilisateur') ?></h3>
-    <table class="vertical-table">
+    <table class="table table-striped">
         <tr>
-            <th style="padding-right: 20px"><?= __('Login') ?></th>
+            <th><?= __('Login') ?></th>
             <td><?= h($user->login) ?></td>
         </tr>
         <tr>
-            <th style="padding-right: 20px"><?= __('Mot de passe') ?></th>
+            <th><?= __('Mot de passe') ?></th>
             <td><?= h($user->password) ?></td>
         </tr>
         <tr>
-            <th style="padding-right: 20px"><?= __('Nom') ?></th>
+            <th><?= __('Nom') ?></th>
             <td><?= h($user->nom) ?></td>
         </tr>
         <tr>
-            <th style="padding-right: 20px"><?= __('Prénom') ?></th>
+            <th><?= __('Prénom') ?></th>
             <td><?= h($user->prenom) ?></td>
         </tr>
         <tr>
-            <th style="padding-right: 20px"><?= __('Email') ?></th>
+            <th><?= __('Email') ?></th>
             <td><?= h($user->email) ?></td>
         </tr>
         <tr>
-            <th style="padding-right: 20px"><?= __('Id') ?></th>
+            <th><?= __('Id') ?></th>
             <td><?= $this->Number->format($user->id) ?></td>
         </tr>
     </table>
