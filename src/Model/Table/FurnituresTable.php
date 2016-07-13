@@ -7,17 +7,17 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Items Model
+ * Furnitures Model
  *
- * @method \App\Model\Entity\Item get($primaryKey, $options = [])
- * @method \App\Model\Entity\Item newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Item[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Item|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Item patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Item[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Item findOrCreate($search, callable $callback = null)
+ * @method \App\Model\Entity\Furniture get($primaryKey, $options = [])
+ * @method \App\Model\Entity\Furniture newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\Furniture[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\Furniture|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\Furniture patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\Furniture[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\Furniture findOrCreate($search, callable $callback = null)
  */
-class ItemsTable extends Table
+class FurnituresTable extends Table
 {
 
     /**
@@ -30,7 +30,7 @@ class ItemsTable extends Table
     {
         parent::initialize($config);
 
-        $this->table('items');
+        $this->table('furnitures');
         $this->displayField('id');
         $this->primaryKey('id');
     }
@@ -49,8 +49,7 @@ class ItemsTable extends Table
 
         $validator
             ->date('date_in')
-            ->requirePresence('date_in', 'create')
-            ->notEmpty('date_in');
+            ->allowEmpty('date_in');
 
         $validator
             ->date('date_out')
@@ -61,6 +60,9 @@ class ItemsTable extends Table
             ->allowEmpty('price');
 
         $validator
+            ->allowEmpty('state');
+
+        $validator
             ->requirePresence('note', 'create')
             ->notEmpty('note');
 
@@ -68,6 +70,11 @@ class ItemsTable extends Table
             ->integer('id_equipments')
             ->requirePresence('id_equipments', 'create')
             ->notEmpty('id_equipments');
+
+        $validator
+            ->integer('id_locations')
+            ->requirePresence('id_locations', 'create')
+            ->notEmpty('id_locations');
 
         return $validator;
     }

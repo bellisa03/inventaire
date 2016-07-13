@@ -4,16 +4,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Item Entity
+ * Furniture Entity
  *
  * @property int $id
  * @property \Cake\I18n\Time $date_in
  * @property \Cake\I18n\Time $date_out
  * @property float $price
+ * @property string $state
  * @property string $note
  * @property int $id_equipments
+ * @property int $id_locations
  */
-class Item extends Entity
+class Furniture extends Entity
 {
 
     /**

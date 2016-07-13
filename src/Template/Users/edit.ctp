@@ -14,11 +14,11 @@
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Modifier l\'utilisateur') ?></legend>
         <?php
-            echo $this->Form->input('login');
-            echo $this->Form->input('password');
-            echo $this->Form->input('nom');
-            echo $this->Form->input('prenom');
-            echo $this->Form->input('email');
+            echo $this->Form->input('login', ['label' => 'Login']);
+            echo $this->Form->input('password', ['label' => 'Mot de passe']);
+            echo $this->Form->input('nom', ['label' => 'Nom']);
+            echo $this->Form->input('prenom', ['label' => 'Prénom']);
+            echo $this->Form->input('email', ['label' => 'Email']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Sauvegarder')) ?>
