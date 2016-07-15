@@ -1,20 +1,19 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Equipment'), ['action' => 'add']) ?></li>
+<nav role="navigation" style="padding-bottom: 30px">
+    <ul class="nav nav-pills">
+        <li role="presentation"><?= $this->Html->link(__('Nouveau type de matériel'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="equipments index large-9 medium-8 columns content">
-    <h3><?= __('Equipments') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+<div class="form-group" style="padding-bottom: 30px">
+    <h3><?= __('Matériel') ?></h3>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('title') ?></th>
-                <th><?= $this->Paginator->sort('version') ?></th>
-                <th><?= $this->Paginator->sort('description') ?></th>
-                <th><?= $this->Paginator->sort('quantity') ?></th>
-                <th><?= $this->Paginator->sort('barcode') ?></th>
+                <th><?= $this->Paginator->sort('Identifiant') ?></th>
+                <th><?= $this->Paginator->sort('Type de matériel') ?></th>
+                <th><?= $this->Paginator->sort('Version') ?></th>
+                <th><?= $this->Paginator->sort('Quantité') ?></th>
+                <th><?= $this->Paginator->sort('Description') ?></th>
+                <th><?= $this->Paginator->sort('Code barre') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -24,13 +23,13 @@
                 <td><?= $this->Number->format($equipment->id) ?></td>
                 <td><?= h($equipment->title) ?></td>
                 <td><?= h($equipment->version) ?></td>
-                <td><?= h($equipment->description) ?></td>
                 <td><?= $this->Number->format($equipment->quantity) ?></td>
+                <td><?= h($equipment->description) ?></td>
                 <td><?= $this->Number->format($equipment->barcode) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $equipment->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $equipment->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $equipment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $equipment->id)]) ?>
+                    <?= $this->Html->link(__('Afficher'), ['action' => 'view', $equipment->id]) ?>
+                    <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $equipment->id]) ?>
+                    <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $equipment->id], ['confirm' => __('Etes-vous sûr de vouloir supprimer le type de matériel # {0}?', $equipment->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -38,9 +37,9 @@
     </table>
     <div class="paginator">
         <ul class="pagination">
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->prev('< ' . __('précédent')) ?>
             <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
+            <?= $this->Paginator->next(__('suivant') . ' >') ?>
         </ul>
         <p><?= $this->Paginator->counter() ?></p>
     </div>

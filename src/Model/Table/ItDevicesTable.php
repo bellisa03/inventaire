@@ -33,8 +33,15 @@ class ItDevicesTable extends Table
         $this->table('it_devices');
         $this->displayField('id');
         $this->primaryKey('id');
-    }
+        /*
+         * Un itDevice doit avoir un identifiant matériel (1.1), j'ajoute donc la configuration suivante:
+         * */
 
+        $this->hasOne('Equipments', [
+            'foreignKey' => 'id',
+            'bindingKey' => 'id_equipments'
+        ]);
+    }
     /**
      * Default validation rules.
      *
@@ -68,7 +75,7 @@ class ItDevicesTable extends Table
 
         $validator
             ->integer('id_equipments')
-            ->requirePresence('id_equipments', 'create')
+            //->requirePresence('id_equipments', 'create')
             ->notEmpty('id_equipments');
 
         return $validator;

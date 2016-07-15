@@ -1,21 +1,20 @@
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Equipments'), ['action' => 'index']) ?></li>
+<nav role="navigation" style="padding-bottom: 30px">
+    <ul class="nav nav-pills">
+        <li role="presentation"><?= $this->Html->link(__('Liste du matériel'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
-<div class="equipments form large-9 medium-8 columns content">
+<div class="form-group" style="padding-bottom: 30px">
     <?= $this->Form->create($equipment) ?>
-    <fieldset>
-        <legend><?= __('Add Equipment') ?></legend>
+    <fieldset style="padding-bottom: 30px">
+        <legend><?= __('Ajouter un type de matériel') ?></legend>
         <?php
-            echo $this->Form->input('title');
-            echo $this->Form->input('version');
-            echo $this->Form->input('description');
-            echo $this->Form->input('quantity');
-            echo $this->Form->input('barcode');
+            echo $this->Form->input('title', ['label' => 'Type de matériel']);
+            echo $this->Form->input('version', ['label' => 'Version']);
+//            echo $this->Form->input('quantity', ['label' => 'Quantité']);
+            echo $this->Form->input('description', ['label' => 'Description']);
+            echo $this->Form->input('barcode', ['label' => 'Code Barre']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Sauvegarder')) ?>
     <?= $this->Form->end() ?>
 </div>

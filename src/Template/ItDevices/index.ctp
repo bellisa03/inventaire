@@ -10,6 +10,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('Identifiant') ?></th>
                 <th><?= $this->Paginator->sort('Matériel') ?></th>
+                <th><?= $this->Paginator->sort('Version') ?></th>
                 <th><?= $this->Paginator->sort('Note') ?></th>
                 <th><?= $this->Paginator->sort('Prix') ?></th>
                 <th><?= $this->Paginator->sort('Date d\'achat') ?></th>
@@ -22,7 +23,10 @@
             <?php foreach ($itDevices as $itDevice): ?>
             <tr>
                 <td><?= $this->Number->format($itDevice->id) ?></td>
-                <td><?= $this->Number->format($itDevice->id_equipments) ?></td>
+                <td> <?php echo ($itDevice->id_equipments)?$itDevice->equipment->title:'null';;
+                    ?></td>
+                <td> <?php echo ($itDevice->id_equipments)?$itDevice->equipment->version:'null';;
+                    ?></td>
                 <td><?= h($itDevice->note) ?></td>
                 <td><?= $this->Number->format($itDevice->price) ?></td>
                 <td><?= h($itDevice->date_in) ?></td>

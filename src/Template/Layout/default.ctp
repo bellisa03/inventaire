@@ -54,14 +54,14 @@ $cakeDescription = 'Inventorix: votre outil d\'inventaire';
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">
-                Inventorix</a>
+            <a class="navbar-brand">
+                INVENTORIX</span></a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><?= $this->Html->link(__('Home'), ['controller' => 'Pages', 'action' => 'index']) ?></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li class="active"><?= $this->Html->link(__('Accueil'), ['controller' => 'Equipments', 'action' => 'index']) ?></li>
+                <li class="active"><a href="#about">About</a></li>
+                <li class="active"><a href="#contact">Contact</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

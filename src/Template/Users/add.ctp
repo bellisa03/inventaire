@@ -5,7 +5,7 @@
 </nav>
 
 
-<div class="users form large-9 medium-8 columns content">
+<div class="form-group" style="padding-bottom: 30px">
     <?= $this->Form->create($user) ?>
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Ajouter un utilisateur') ?></legend>

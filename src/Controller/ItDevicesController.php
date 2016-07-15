@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * ItDevices Controller
@@ -18,9 +19,9 @@ class ItDevicesController extends AppController
      */
     public function index()
     {
-        $itDevices = $this->paginate($this->ItDevices);
+        $itDevices = $this->paginate($this->ItDevices->find('all')->contain(['Equipments']));
 
-        $this->set(compact('itDevices'));
+        $this->set(compact('itDevices', 'equipments'));
         $this->set('_serialize', ['itDevices']);
     }
 
@@ -37,7 +38,19 @@ class ItDevicesController extends AppController
             'contain' => []
         ]);
 
-        $this->set('itDevice', $itDevice);
+        $e = TableRegistry::get('equipments')->find('all');
+        /**
+         * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         */
+        foreach ($e as $value) {
+            if($value->id == $itDevice->id_equipments)
+                $equipment = $value->title;
+        }
+
+        $data['itDevice'] = $itDevice;
+        $data['equipment'] = $equipment;
+
+        $this->set($data);
         $this->set('_serialize', ['itDevice']);
     }
 
@@ -48,9 +61,18 @@ class ItDevicesController extends AppController
      */
     public function add()
     {
+        $equipments = TableRegistry::get('equipments')->find('Equipments');
+
         $itDevice = $this->ItDevices->newEntity();
         if ($this->request->is('post')) {
-            $itDevice = $this->ItDevices->patchEntity($itDevice, $this->request->data);
+            $data = $this->request->data();
+            $itDevice->date_in = $data['date_in'];
+            $itDevice->date_out = $data['date_out'];
+            $itDevice->date_depreciated = $data['date_depreciated'];
+            $itDevice->price = $data['price'];
+            $itDevice->note = $data['note'];
+            $itDevice->id_equipments = $data['id_equipments'];
+
             if ($this->ItDevices->save($itDevice)) {
                 $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
@@ -58,7 +80,7 @@ class ItDevicesController extends AppController
                 $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('itDevice'));
+        $this->set(compact('itDevice', 'equipments'));
         $this->set('_serialize', ['itDevice']);
     }
 

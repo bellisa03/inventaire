@@ -1,13 +1,14 @@
 <nav role="navigation" style="padding-bottom: 30px">
     <ul class="nav nav-pills">
-        <li role="presentation"><?= $this->Html->link(__('Modifier une unité de matériel IT'), ['action' => 'edit', $itDevice->id]) ?> </li>
-        <li role="presentation"><?= $this->Form->postLink(__('Supprimer une unité de matériel IT'), ['action' => 'delete', $itDevice->id], ['confirm' => __('Etes-vous sûr de vouloir supprimer l\'unité de matériel IT # {0}?', $itDevice->id)]) ?> </li>
+        <li role="presentation"><?= $this->Html->link(__('Modifier'), ['action' => 'edit', $itDevice->id]) ?> </li>
+        <li role="presentation"><?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $itDevice->id], ['confirm' => __('Etes-vous sûr de vouloir supprimer l\'unité de matériel IT # {0}?', $itDevice->id)]) ?> </li>
         <li role="presentation"><?= $this->Html->link(__('Liste du matériel IT'), ['action' => 'index']) ?> </li>
+        <li role="presentation"><?= $this->Html->link(__('Nouveau type de matériel'), ['controller'=>'Equipments', 'action' => 'add']) ?> </li>
         <li role="presentation"><?= $this->Html->link(__('Nouvelle unité de matériel IT'), ['action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="itDevices view large-9 medium-8 columns content">
-    <h3><?= h($itDevice->id) ?></h3>
+    <h3><?= __('Fiche matériel IT') ?></h3>
     <table class="table table-striped">
         <tr>
             <th><?= __('Identifiant') ?></th>
@@ -15,7 +16,7 @@
         </tr>
         <tr>
             <th><?= __('Matériel') ?></th>
-            <td><?= $this->Number->format($itDevice->id_equipments) ?></td>
+            <td><?= h($equipment) ?></td>
         </tr>
         <tr>
             <th><?= __('Note') ?></th>

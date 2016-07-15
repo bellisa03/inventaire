@@ -9,7 +9,7 @@
         <li><?= $this->Html->link(__('Liste du matériel IT'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
-<div class="itDevices form large-9 medium-8 columns content">
+<div class="form-group" style="padding-bottom: 30px">
     <?= $this->Form->create($itDevice) ?>
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Modifier une unité de matériel IT') ?></legend>

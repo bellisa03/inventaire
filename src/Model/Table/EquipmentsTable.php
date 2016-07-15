@@ -67,4 +67,13 @@ class EquipmentsTable extends Table
 
         return $validator;
     }
+
+    public function findEquipments(){
+        $r = $this->find('all')->select(['id','title']);
+
+        foreach ($r as $v) {
+            $t[$v->id] = $v->title;
+        }
+        return $t;
+    }
 }

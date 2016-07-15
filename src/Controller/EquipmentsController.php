@@ -52,10 +52,10 @@ class EquipmentsController extends AppController
         if ($this->request->is('post')) {
             $equipment = $this->Equipments->patchEntity($equipment, $this->request->data);
             if ($this->Equipments->save($equipment)) {
-                $this->Flash->success(__('The equipment has been saved.'));
+                $this->Flash->success(__('Type de matériel sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The equipment could not be saved. Please, try again.'));
+                $this->Flash->error(__('Le type de matériel n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
         $this->set(compact('equipment'));
@@ -77,10 +77,10 @@ class EquipmentsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $equipment = $this->Equipments->patchEntity($equipment, $this->request->data);
             if ($this->Equipments->save($equipment)) {
-                $this->Flash->success(__('The equipment has been saved.'));
+                $this->Flash->success(__('Type de matériel sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The equipment could not be saved. Please, try again.'));
+                $this->Flash->error(__('Le type de matériel n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
         $this->set(compact('equipment'));
@@ -99,9 +99,9 @@ class EquipmentsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $equipment = $this->Equipments->get($id);
         if ($this->Equipments->delete($equipment)) {
-            $this->Flash->success(__('The equipment has been deleted.'));
+            $this->Flash->success(__('Type de matériel supprimé.'));
         } else {
-            $this->Flash->error(__('The equipment could not be deleted. Please, try again.'));
+            $this->Flash->error(__('Le type de matériel n\'a pu être supprimé. Veuillez essayer à nouveau.'));
         }
         return $this->redirect(['action' => 'index']);
     }
