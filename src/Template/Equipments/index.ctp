@@ -1,6 +1,8 @@
 <nav role="navigation" style="padding-bottom: 30px">
     <ul class="nav nav-pills">
         <li role="presentation"><?= $this->Html->link(__('Nouveau type de matériel'), ['action' => 'add']) ?></li>
+        <li role="presentation"><?= $this->Html->link(__('Nouvelle unité de matériel IT'), ['controller' => 'ItDevices', 'action' => 'add']) ?> </li>
+        <li role="presentation"><?= $this->Html->link(__('Nouveau meuble'), ['controller' => 'Furnitures', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="form-group" style="padding-bottom: 30px">

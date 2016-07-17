@@ -52,10 +52,10 @@ class LocationsController extends AppController
         if ($this->request->is('post')) {
             $location = $this->Locations->patchEntity($location, $this->request->data);
             if ($this->Locations->save($location)) {
-                $this->Flash->success(__('The location has been saved.'));
+                $this->Flash->success(__('La localisation a bien été sauvegardée.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The location could not be saved. Please, try again.'));
+                $this->Flash->error(__('La localisation n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
             }
         }
         $this->set(compact('location'));
@@ -77,10 +77,10 @@ class LocationsController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $location = $this->Locations->patchEntity($location, $this->request->data);
             if ($this->Locations->save($location)) {
-                $this->Flash->success(__('The location has been saved.'));
+                $this->Flash->success(__('La localisation a bien été sauvegardée.'));
                 return $this->redirect(['action' => 'index']);
             } else {
-                $this->Flash->error(__('The location could not be saved. Please, try again.'));
+                $this->Flash->error(__('La localisation n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
             }
         }
         $this->set(compact('location'));
@@ -99,9 +99,9 @@ class LocationsController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $location = $this->Locations->get($id);
         if ($this->Locations->delete($location)) {
-            $this->Flash->success(__('The location has been deleted.'));
+            $this->Flash->success(__('La localisation a été supprimée.'));
         } else {
-            $this->Flash->error(__('The location could not be deleted. Please, try again.'));
+            $this->Flash->error(__('La localisation n\'a pu être supprimée. Veuillez essayer à nouveau.'));
         }
         return $this->redirect(['action' => 'index']);
     }

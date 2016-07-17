@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Spacebellisa\Date;
 
 /**
  * ItDevices Controller
@@ -97,7 +98,14 @@ class ItDevicesController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $itDevice = $this->ItDevices->patchEntity($itDevice, $this->request->data);
+            $data = $this->request->data();
+            $itDevice->date_in = $data['date_in'];
+            $itDevice->date_out = $data['date_out'];
+            $itDevice->date_depreciated = $data['date_depreciated'];
+            $itDevice->price = $data['price'];
+            $itDevice->note = $data['note'];
+            $itDevice->id_equipments = $data['id_equipments'];
+
             if ($this->ItDevices->save($itDevice)) {
                 $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
@@ -105,7 +113,16 @@ class ItDevicesController extends AppController
                 $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('itDevice'));
+
+        $e = TableRegistry::get('equipments')->find('all');
+        /**
+         * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         */
+        foreach ($e as $value) {
+            $equipments[$value->id] = $value->title;
+        }
+
+        $this->set(compact('itDevice', 'equipments'));
         $this->set('_serialize', ['itDevice']);
     }
 

@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
+
 /**
  * ItDevices Model
  *
@@ -40,7 +41,10 @@ class ItDevicesTable extends Table
         $this->hasOne('Equipments', [
             'foreignKey' => 'id',
             'bindingKey' => 'id_equipments'
+
+
         ]);
+        
     }
     /**
      * Default validation rules.

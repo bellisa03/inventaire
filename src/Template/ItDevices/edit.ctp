@@ -14,7 +14,8 @@
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Modifier une unité de matériel IT') ?></legend>
         <?php
-            echo $this->Form->input('id_equipments', ['label' => 'Identifiant']);
+            echo $this->Form->label('Type de matériel');
+            echo $this->Form->select('id_equipments', $equipments, ['class' => 'form-control']);
             echo $this->Form->input('note',['label' => 'Note', 'type' =>'textarea']);
             echo $this->Form->input('price', ['label' => 'Prix']);
             echo $this->Form->input('date_in', ['label' => 'Date d\'achat', 'empty' => true]);
