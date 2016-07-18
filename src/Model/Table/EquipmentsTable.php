@@ -52,6 +52,9 @@ class EquipmentsTable extends Table
             ->notEmpty('title');
 
         $validator
+            ->allowEmpty('brand');
+
+        $validator
             ->allowEmpty('version');
 
         $validator
@@ -65,14 +68,18 @@ class EquipmentsTable extends Table
             ->integer('barcode')
             ->allowEmpty('barcode');
 
+        $validator
+            ->boolean('itdevice')
+            ->allowEmpty('itdevice');
+
         return $validator;
     }
 
     public function findEquipments(){
-        $r = $this->find('all')->select(['id','title']);
+        $e = $this->find('all')->select(['id','title', 'brand', 'version', 'itdevice']);
 
-        foreach ($r as $v) {
-            $t[$v->id] = $v->title;
+        foreach ($e as $value) {
+            $t[$value->id] = $value->title . ' ' . $value->brand . ' ' . $value->version;
         }
         return $t;
     }

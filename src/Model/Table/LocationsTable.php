@@ -62,4 +62,13 @@ class LocationsTable extends Table
 
         return $validator;
     }
+
+    public function findLocations(){
+        $l = $this->find('all')->select(['id','title']);
+
+        foreach ($l as $value) {
+            $t[$value->id] = $value->title;
+        }
+        return $t;
+    }
 }

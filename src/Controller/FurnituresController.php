@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Furnitures Controller
@@ -18,9 +19,9 @@ class FurnituresController extends AppController
      */
     public function index()
     {
-        $furnitures = $this->paginate($this->Furnitures);
+        $furnitures = $this->paginate($this->Furnitures->find('all')->contain(['Locations', 'Equipments']));
 
-        $this->set(compact('furnitures'));
+        $this->set(compact('furnitures', 'equipments', 'locations'));
         $this->set('_serialize', ['furnitures']);
     }
 
@@ -37,7 +38,29 @@ class FurnituresController extends AppController
             'contain' => []
         ]);
 
-        $this->set('furniture', $furniture);
+        $l = TableRegistry::get('locations')->find('all');
+        /**
+         * Tableau créé pour passer les locaux de la table "locations" à la vue
+         */
+        foreach ($l as $value) {
+            if($value->id == $furniture->id_locations)
+            $location = $value->title;
+        }
+
+        $e = TableRegistry::get('equipments')->find('all');
+        /**
+         * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         */
+        foreach ($e as $value) {
+            if($value->id == $furniture->id_equipments)
+                $equipment = $value->title;
+        }
+
+        $data['furniture'] = $furniture;
+        $data['location'] = $location;
+        $data['equipment'] = $equipment;
+
+        $this->set($data);
         $this->set('_serialize', ['furniture']);
     }
 
@@ -48,9 +71,20 @@ class FurnituresController extends AppController
      */
     public function add()
     {
+        $equipments = TableRegistry::get('equipments')->find('Equipments');
+        $locations = TableRegistry::get('locations')->find('Locations');
+
         $furniture = $this->Furnitures->newEntity();
         if ($this->request->is('post')) {
-            $furniture = $this->Furnitures->patchEntity($furniture, $this->request->data);
+            $data = $this->request->data();
+            $furniture->date_in = $data['date_in'];
+            $furniture->date_out = $data['date_out'];
+            $furniture->price = $furniture['price'];
+            $furniture->state = $data['state'];
+            $furniture->note = $data['note'];
+            $furniture->id_equipments = $data['id_equipments'];
+            $furniture->id_locations = $data['id_locations'];
+
             if ($this->Furnitures->save($furniture)) {
                 $this->Flash->success(__('Le meuble a été sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
@@ -58,7 +92,7 @@ class FurnituresController extends AppController
                 $this->Flash->error(__('Le meuble n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('furniture'));
+        $this->set(compact('furniture', 'equipments', 'locations'));
         $this->set('_serialize', ['furniture']);
     }
 
@@ -75,7 +109,15 @@ class FurnituresController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $furniture = $this->Furnitures->patchEntity($furniture, $this->request->data);
+            $data = $this->request->data();
+            $furniture->date_in = $data['date_in'];
+            $furniture->date_out = $data['date_out'];
+            $furniture->price = $furniture['price'];
+            $furniture->state = $data['state'];
+            $furniture->note = $data['note'];
+            $furniture->id_equipments = $data['id_equipments'];
+            $furniture->id_locations = $data['id_locations'];
+
             if ($this->Furnitures->save($furniture)) {
                 $this->Flash->success(__('Le meuble a été sauvegardé.'));
                 return $this->redirect(['action' => 'index']);
@@ -83,7 +125,24 @@ class FurnituresController extends AppController
                 $this->Flash->error(__('Le meuble n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('furniture'));
+
+        $e = TableRegistry::get('equipments')->find('all');
+        /**
+         * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         */
+        foreach ($e as $value) {
+            $equipments[$value->id] = $value->title;
+        }
+
+        $l = TableRegistry::get('locations')->find('all');
+        /**
+         * Tableau créé pour passer les locaux de la table "locations" à la vue
+         */
+        foreach ($l as $value) {
+            $locations[$value->id] = $value->title;
+        }
+
+        $this->set(compact('furniture', 'equipments', 'locations'));
         $this->set('_serialize', ['furniture']);
     }
 

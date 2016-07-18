@@ -20,6 +20,10 @@
             <td><?= h($equipment->title) ?></td>
         </tr>
         <tr>
+            <th><?= __('Marque') ?></th>
+            <td><?= h($equipment->brand) ?></td>
+        </tr>
+        <tr>
             <th><?= __('Version') ?></th>
             <td><?= h($equipment->version) ?></td>
         </tr>
@@ -30,6 +34,10 @@
         <tr>
             <th><?= __('Description') ?></th>
             <td><?= h($equipment->description) ?></td>
+        </tr>
+        <tr>
+            <th><?= __('Matériel IT') ?></th>
+            <td><?= $equipment->itdevice ? __('Oui') : __('Non'); ?></td>
         </tr>
         <tr>
             <th><?= __('Code Barre') ?></th>

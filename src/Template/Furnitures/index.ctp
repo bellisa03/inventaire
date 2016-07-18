@@ -10,6 +10,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('Identifiant') ?></th>
                 <th><?= $this->Paginator->sort('Matériel') ?></th>
+                <th><?= $this->Paginator->sort('Version') ?></th>
                 <th><?= $this->Paginator->sort('Localisation') ?></th>
                 <th><?= $this->Paginator->sort('Etat') ?></th>
                 <th><?= $this->Paginator->sort('Prix') ?></th>
@@ -25,8 +26,9 @@
             <?php foreach ($furnitures as $furniture): ?>
             <tr>
                 <td><?= $this->Number->format($furniture->id) ?></td>
-                <td><?= $this->Number->format($furniture->id_equipments) ?></td>
-                <td><?= $this->Number->format($furniture->id_locations) ?></td>
+                <td><?php echo ($furniture->id_equipments)?$furniture->equipment->title:'null';; ?></td>
+                <td><?php echo ($furniture->id_equipments)?$furniture->equipment->version:'null';; ?></td>
+                <td><?php echo ($furniture->id_locations)?$furniture->location->title:'null';; ?></td>
                 <td><?= h($furniture->state) ?></td>
                 <td><?= $this->Number->format($furniture->price) ?></td>
                 <td><?= h($furniture->date_in) ?></td>

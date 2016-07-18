@@ -12,9 +12,11 @@
             <tr>
                 <th><?= $this->Paginator->sort('Identifiant') ?></th>
                 <th><?= $this->Paginator->sort('Type de matériel') ?></th>
+                <th><?= $this->Paginator->sort('Marque') ?></th>
                 <th><?= $this->Paginator->sort('Version') ?></th>
                 <th><?= $this->Paginator->sort('Quantité') ?></th>
                 <th><?= $this->Paginator->sort('Description') ?></th>
+                <th><?= $this->Paginator->sort('Matériel IT') ?></th>
                 <th><?= $this->Paginator->sort('Code barre') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
@@ -24,9 +26,11 @@
             <tr>
                 <td><?= $this->Number->format($equipment->id) ?></td>
                 <td><?= h($equipment->title) ?></td>
+                <td><?= h($equipment->brand) ?></td>
                 <td><?= h($equipment->version) ?></td>
                 <td><?= $this->Number->format($equipment->quantity) ?></td>
                 <td><?= h($equipment->description) ?></td>
+                <td><?= $equipment->itdevice ? __('Oui') : __('Non'); ?></td>
                 <td><?= $this->Number->format($equipment->barcode) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $equipment->id]) ?>

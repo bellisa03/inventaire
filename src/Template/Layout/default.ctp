@@ -67,7 +67,7 @@ $cakeDescription = 'Inventorix: votre outil d\'inventaire';
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="width: 1400px;">
 
     <div class="starter-template">
         <h1><?= $cakeDescription ?></h1>

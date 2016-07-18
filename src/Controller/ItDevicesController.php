@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
-use Spacebellisa\Date;
+use Spacebellisa\Date as d;
 
 /**
  * ItDevices Controller
@@ -63,16 +63,16 @@ class ItDevicesController extends AppController
     public function add()
     {
         $equipments = TableRegistry::get('equipments')->find('Equipments');
-
+        //$equipments = TableRegistry::get('equipments')->find('Equipments', ['conditions' => ['Equipments.itdevice'=> true]]);
         $itDevice = $this->ItDevices->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data();
+
             $itDevice->date_in = $data['date_in'];
             $itDevice->date_out = $data['date_out'];
             $itDevice->date_depreciated = $data['date_depreciated'];
             $itDevice->price = $data['price'];
             $itDevice->note = $data['note'];
-            $itDevice->id_equipments = $data['id_equipments'];
 
             if ($this->ItDevices->save($itDevice)) {
                 $this->Flash->success(__('Le matériel IT a été sauvegardé.'));

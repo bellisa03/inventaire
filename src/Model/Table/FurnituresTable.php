@@ -33,6 +33,16 @@ class FurnituresTable extends Table
         $this->table('furnitures');
         $this->displayField('id');
         $this->primaryKey('id');
+
+        $this->hasOne('Equipments', [
+            'foreignKey' => 'id',
+            'bindingKey' => 'id_equipments'
+        ]);
+
+        $this->hasOne('Locations', [
+            'foreignKey' => 'id',
+            'bindingKey' => 'id_locations'
+        ]);
     }
 
     /**
@@ -64,16 +74,16 @@ class FurnituresTable extends Table
 
         $validator
             ->requirePresence('note', 'create')
-            ->notEmpty('note');
+            ->allowEmpty('note');
 
         $validator
             ->integer('id_equipments')
-            ->requirePresence('id_equipments', 'create')
+            //->requirePresence('id_equipments', 'create')
             ->notEmpty('id_equipments');
 
         $validator
             ->integer('id_locations')
-            ->requirePresence('id_locations', 'create')
+            //->requirePresence('id_locations', 'create')
             ->notEmpty('id_locations');
 
         return $validator;

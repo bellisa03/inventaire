@@ -16,11 +16,11 @@
         </tr>
         <tr>
             <th><?= __('Matériel') ?></th>
-            <td><?= $this->Number->format($furniture->id_equipments) ?></td>
+            <td><?= h($equipment) ?></td>
         </tr>
         <tr>
             <th><?= __('Localisation') ?></th>
-            <td><?= $this->Number->format($furniture->id_locations) ?></td>
+            <td><?= h($location) ?></td>
         </tr>
         <tr>
             <th><?= __('Etat') ?></th>
