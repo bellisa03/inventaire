@@ -39,13 +39,13 @@ class ItDevicesController extends AppController
             'contain' => []
         ]);
 
-        $e = TableRegistry::get('equipments')->find('all');
+        $e = TableRegistry::get('equipments')->find('Equipments');
         /**
          * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
          */
-        foreach ($e as $value) {
-            if($value->id == $itDevice->id_equipments)
-                $equipment = $value->title;
+        foreach ($e as $key=>$value) {
+            if($key == $itDevice->id_equipments)
+                $equipment = $value;
         }
 
         $data['itDevice'] = $itDevice;

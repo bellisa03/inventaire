@@ -60,16 +60,23 @@ $cakeDescription = 'Inventorix: votre outil d\'inventaire';
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><?= $this->Html->link(__('Accueil'), ['controller' => 'Equipments', 'action' => 'index']) ?></li>
-                <li class="active"><a href="#about">About</a></li>
+                <li class="active"><a href="#about">A propos</a></li>
                 <li class="active"><a href="#contact">Contact</a></li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
-<div class="container" style="width: 1400px;">
-
-    <div class="starter-template">
+<div class="container" style="width: 1700px;">
+    <ul class="nav nav-pills nav-stacked" style="float:left ; width: 260px; padding: 40px ">
+        <li role="presentation" class="active"><?= $this->Html->link(__('Type de matériel'), ['controller' => 'Equipments', 'action' => 'index'])?></li>
+        <li role="presentation" class="active"><?= $this->Html->link(__('Matériel IT'), ['controller' => 'ItDevices', 'action' => 'index']) ?> </li>
+        <li role="presentation" class="active"><?= $this->Html->link(__('Mobilier'), ['controller' => 'Furnitures', 'action' => 'index']) ?></li>
+        <li role="presentation" class="active"><?= $this->Html->link(__('Locaux'), ['controller' => 'Locations', 'action' => 'index']) ?></li>
+        <li role="presentation" class="active"><?= $this->Html->link(__('Utilisateurs'), ['controller' => 'Users', 'action' => 'index']) ?></li>
+        <li role="presentation" class="active"><?= $this->Html->link(__('Attribution'), ['controller' => 'Attributions', 'action' => 'index']) ?></li>
+    </ul>
+    <div class="starter-template" style="float:left ; width: 1400px">
         <h1><?= $cakeDescription ?></h1>
         <?= $this->Flash->render() ?>
         <p class="lead"><?= $this->fetch('content') ?></p>

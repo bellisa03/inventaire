@@ -10,6 +10,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('Identifiant') ?></th>
                 <th><?= $this->Paginator->sort('Matériel') ?></th>
+                <th><?= $this->Paginator->sort('Marque') ?></th>
                 <th><?= $this->Paginator->sort('Version') ?></th>
                 <th><?= $this->Paginator->sort('Localisation') ?></th>
                 <th><?= $this->Paginator->sort('Etat') ?></th>
@@ -27,6 +28,7 @@
             <tr>
                 <td><?= $this->Number->format($furniture->id) ?></td>
                 <td><?php echo ($furniture->id_equipments)?$furniture->equipment->title:'null';; ?></td>
+                <td><?php echo ($furniture->id_equipments)?$furniture->equipment->brand:'null';; ?></td>
                 <td><?php echo ($furniture->id_equipments)?$furniture->equipment->version:'null';; ?></td>
                 <td><?php echo ($furniture->id_locations)?$furniture->location->title:'null';; ?></td>
                 <td><?= h($furniture->state) ?></td>

@@ -47,13 +47,13 @@ class FurnituresController extends AppController
             $location = $value->title;
         }
 
-        $e = TableRegistry::get('equipments')->find('all');
+        $e = TableRegistry::get('equipments')->find('Equipments');
         /**
          * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
          */
-        foreach ($e as $value) {
-            if($value->id == $furniture->id_equipments)
-                $equipment = $value->title;
+        foreach ($e as $key=>$value) {
+            if($key == $furniture->id_equipments)
+                $equipment = $value;
         }
 
         $data['furniture'] = $furniture;

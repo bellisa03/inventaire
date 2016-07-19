@@ -10,6 +10,7 @@
             <tr>
                 <th><?= $this->Paginator->sort('Identifiant') ?></th>
                 <th><?= $this->Paginator->sort('Matériel') ?></th>
+                <th><?= $this->Paginator->sort('Marque') ?></th>
                 <th><?= $this->Paginator->sort('Version') ?></th>
                 <th><?= $this->Paginator->sort('Note') ?></th>
                 <th><?= $this->Paginator->sort('Prix') ?></th>
@@ -24,6 +25,8 @@
             <tr>
                 <td><?= $this->Number->format($itDevice->id) ?></td>
                 <td> <?php echo ($itDevice->id_equipments)?$itDevice->equipment->title:'null';;
+                    ?></td>
+                <td> <?php echo ($itDevice->id_equipments)?$itDevice->equipment->brand:'null';;
                     ?></td>
                 <td> <?php echo ($itDevice->id_equipments)?$itDevice->equipment->version:'null';;
                     ?></td>
