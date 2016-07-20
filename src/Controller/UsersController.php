@@ -117,4 +117,16 @@ class UsersController extends AppController
             $this->Flash->error('Votre login ou mot de passe est incorrect.');
         }
     }
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['logout', 'add']);
+    }
+
+    public function logout()
+    {
+        $this->Flash->success('Vous êtes maintenant déconnecté');
+        return $this->redirect($this->Auth->logout());
+    }
 }

@@ -28,7 +28,7 @@
                 <td><?= h($equipment->title) ?></td>
                 <td><?= h($equipment->brand) ?></td>
                 <td><?= h($equipment->version) ?></td>
-                <td><?= $this->Number->format($equipment->quantity) ?></td>
+                <td><?= $equipment->itdevice ? $this->Html->link($this->Number->format($equipment->quantity), ['controller' => 'ItDevices', 'action' => 'detail', $equipment->id]) : $this->Html->link($this->Number->format($equipment->quantity), ['controller' => 'Furnitures', 'action' => 'detail', $equipment->id]);  ?></td>
                 <td><?= h($equipment->description) ?></td>
                 <td><?= $equipment->itdevice ? __('Oui') : __('Non'); ?></td>
                 <td><?= $this->Number->format($equipment->barcode) ?></td>
