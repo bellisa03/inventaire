@@ -97,12 +97,20 @@ class EquipmentsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $equipment = $this->Equipments->get($id);
-        if ($this->Equipments->delete($equipment)) {
-            $this->Flash->success(__('Type de matériel supprimé.'));
-        } else {
-            $this->Flash->error(__('Le type de matériel n\'a pu être supprimé. Veuillez essayer à nouveau.'));
+        $equipment = $this->Equipments->get($id, [
+            'contain' => []
+        ]);
+        if ($equipment->quantity != 0) {
+            $this->Flash->error(__('Le type de matériel est encore référencé et n\'a pu être supprimé.'));
+            return $this->redirect(['action' => 'index']);
         }
-        return $this->redirect(['action' => 'index']);
+        else {
+            if ($this->Equipments->delete($equipment)) {
+                $this->Flash->success(__('Type de matériel supprimé.'));
+            } else {
+                $this->Flash->error(__('Le type de matériel n\'a pu être supprimé. Veuillez essayer à nouveau.'));
+            }
+            return $this->redirect(['action' => 'index']);
+        }
     }
 }

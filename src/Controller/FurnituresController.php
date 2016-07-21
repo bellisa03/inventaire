@@ -25,6 +25,33 @@ class FurnituresController extends AppController
         $this->set('_serialize', ['furnitures']);
     }
 
+
+    /*
+     * Detail method:
+     * Permet d'afficher les détails d'un type de matériel.
+     * un equipment_id lui est passé en paramètre à partir d'un clic sur la quantité d'un type de matériel sur la page index
+     *
+     */
+
+    public function detail($id = null)
+    {
+       $furnitures = $this->paginate($this->Furnitures->find('all')->contain(['Locations', 'Equipments']));
+       foreach ($furnitures as $value) {
+            if ($value->id_equipments == $id) {
+                $details[] = $value;
+            }
+       }
+       if ($details) {
+           $data['details'] = $details;
+       }
+       else {
+           $this->Flash->error(__('Le type de matériel n\'a encore aucune unité de créée.'));
+           return $this->redirect(['controller' => 'Equipments', 'action' => 'index']);
+       }
+       $this->set(compact('details', 'equipments', 'locations'));
+       $this->set('_serialize', ['details']);
+    }
+
     /**
      * View method
      *
