@@ -76,10 +76,18 @@ class EquipmentsTable extends Table
     }
 
     public function findEquipments(){
-        $e = $this->find('all')->select(['id','title', 'brand', 'version', 'itdevice']);
+        $e = $this->find('all')->select(['id','title', 'brand', 'version']);
 
         foreach ($e as $value) {
             $t[$value->id] = $value->title . ' ' . $value->brand . ' ' . $value->version;
+        }
+        return $t;
+    }
+    public function findItBoolean(){
+        $e = $this->find('all')->select(['id', 'itdevice']);
+
+        foreach ($e as $value) {
+            $t[$value->id] = $value->itdevice;
         }
         return $t;
     }

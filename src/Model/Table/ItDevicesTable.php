@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 
@@ -83,5 +84,19 @@ class ItDevicesTable extends Table
             ->notEmpty('id_equipments');
 
         return $validator;
+    }
+    public function findItDevices(){
+        $i = $this->find('all')->select(['id','id_equipments']);
+            foreach ($i as $v){
+                $t[$v->id] = $v->id_equipments;
+            }
+        return $t;
+    }
+    public function findDateDepreciated(){
+        $d = $this->find('all')->select(['id','date_depreciated']);
+        foreach ($d as $v){
+            $t[$v->id] = $v->date_depreciated;
+        }
+        return $t;
     }
 }

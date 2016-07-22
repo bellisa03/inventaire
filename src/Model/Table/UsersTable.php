@@ -79,4 +79,12 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['login']));
         return $rules;
     }
+    public function findUsers(){
+        $u = $this->find('all')->select(['id','login']);
+
+        foreach ($u as $value) {
+            $t[$value->id] = $value->login;
+        }
+        return $t;
+    }
 }

@@ -9,7 +9,7 @@
         <legend><?= __('Ajouter un meuble') ?></legend>
         <?php
             echo $this->Form->label('Type de matériel');
-            echo $this->Form->select('id_equipments', $equipments, ['class' => 'form-control']);
+            echo $this->Form->select('id_equipments', $dropdown, ['class' => 'form-control']);
             echo $this->Form->label('Localisation');
             echo $this->Form->select('id_locations', $locations, ['class' => 'form-control']);
             echo $this->Form->input('state', ['label' => 'Etat']);

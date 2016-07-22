@@ -99,6 +99,23 @@ class FurnituresController extends AppController
     public function add()
     {
         $equipments = TableRegistry::get('equipments')->find('Equipments');
+        /*
+         * Permet d'afficher uniquement les éléments de la table Equipments qui sont du mobilier
+         * cf: TableRegistry + les 2 foreach
+         */
+        $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
+        foreach ($equipments as $key => $value){
+            foreach($itboolean as $k => $v)
+            {
+                if($key == $k){
+                    if (!$v) $dropdown[] = $value;
+                }
+            }
+        }
+        if($dropdown){
+            $data['dropdown'] = $dropdown;
+        }
+
         $locations = TableRegistry::get('locations')->find('Locations');
 
         $furniture = $this->Furnitures->newEntity();
@@ -119,7 +136,7 @@ class FurnituresController extends AppController
                 $this->Flash->error(__('Le meuble n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('furniture', 'equipments', 'locations'));
+        $this->set(compact('furniture', 'dropdown', 'locations'));
         $this->set('_serialize', ['furniture']);
     }
 
@@ -153,12 +170,23 @@ class FurnituresController extends AppController
             }
         }
 
-        $e = TableRegistry::get('equipments')->find('all');
+        $e = TableRegistry::get('equipments')->find('Equipments');
         /**
          * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         * Puis 2 foreach pour n'afficher que le mobilier
          */
-        foreach ($e as $value) {
-            $equipments[$value->id] = $value->title;
+        $i = TableRegistry::get('equipments')->find('ItBoolean');
+
+        foreach ($e as $key=>$value) {
+            foreach($i as $k => $v)
+            {
+                if($key == $k){
+                    if (!$v) $dropdown[] = $value;
+                }
+            }
+        }
+        if($dropdown){
+            $data['dropdown'] = $dropdown;
         }
 
         $l = TableRegistry::get('locations')->find('all');
@@ -169,7 +197,7 @@ class FurnituresController extends AppController
             $locations[$value->id] = $value->title;
         }
 
-        $this->set(compact('furniture', 'equipments', 'locations'));
+        $this->set(compact('furniture', 'dropdown', 'locations'));
         $this->set('_serialize', ['furniture']);
     }
 

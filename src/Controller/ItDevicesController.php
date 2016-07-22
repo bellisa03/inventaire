@@ -89,7 +89,23 @@ class ItDevicesController extends AppController
     public function add()
     {
         $equipments = TableRegistry::get('equipments')->find('Equipments');
-        //$equipments = TableRegistry::get('equipments')->find('Equipments', ['conditions' => ['Equipments.itdevice'=> true]]);
+        /*
+         * Permet d'afficher uniquement les éléments de la table Equipments qui sont du matériel IT
+         * cf: TableRegistry + les 2 foreach
+         */
+        $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
+        foreach ($equipments as $key => $value){
+            foreach($itboolean as $k => $v)
+            {
+                if($key == $k){
+                    if ($v) $dropdown[] = $value;
+                }
+            }
+        }
+        if($dropdown){
+            $data['dropdown'] = $dropdown;
+        }
+
         $itDevice = $this->ItDevices->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data();
@@ -107,7 +123,7 @@ class ItDevicesController extends AppController
                 $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('itDevice', 'equipments'));
+        $this->set(compact('itDevice', 'dropdown'));
         $this->set('_serialize', ['itDevice']);
     }
 
@@ -140,15 +156,25 @@ class ItDevicesController extends AppController
             }
         }
 
-        $e = TableRegistry::get('equipments')->find('all');
+        $e = TableRegistry::get('equipments')->find('Equipments');
         /**
          * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         * Puis 2 foreach pour n'afficher que le matériel IT
          */
-        foreach ($e as $value) {
-            $equipments[$value->id] = $value->title;
-        }
+        $i = TableRegistry::get('equipments')->find('ItBoolean');
 
-        $this->set(compact('itDevice', 'equipments'));
+        foreach ($e as $key=>$value) {
+            foreach($i as $k => $v)
+            {
+                if($key == $k){
+                    if ($v) $dropdown[] = $value;
+                }
+            }
+        }
+        if($dropdown){
+            $data['dropdown'] = $dropdown;
+        }
+        $this->set(compact('itDevice', 'dropdown'));
         $this->set('_serialize', ['itDevice']);
     }
 
