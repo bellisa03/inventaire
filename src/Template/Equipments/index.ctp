@@ -6,7 +6,7 @@
     </ul>
 </nav>
 <div class="form-group" style="padding-bottom: 30px">
-    <h3><?= __('Matériel') ?></h3>
+    <h3><?= __('Type de matériel') ?></h3>
     <table class="table table-striped">
         <thead>
             <tr>

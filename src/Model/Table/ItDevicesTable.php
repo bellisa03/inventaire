@@ -95,7 +95,12 @@ class ItDevicesTable extends Table
     public function findDateDepreciated(){
         $d = $this->find('all')->select(['id','date_depreciated']);
         foreach ($d as $v){
-            $t[$v->id] = $v->date_depreciated;
+            if($v->date_depreciated){
+                $date = $v->date_depreciated;
+                foreach ($date as $key=>$value){
+                    if($key == 'date') $t[$v->id] = $value;
+                }
+            }
         }
         return $t;
     }

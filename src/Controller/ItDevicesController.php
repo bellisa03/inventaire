@@ -88,43 +88,52 @@ class ItDevicesController extends AppController
      */
     public function add()
     {
+        /**
+         * Tableau créé pour passer les types de matériels stockés dans la table "equipments" à la vue
+         * On vérifie d'abord qu'il y a bien des équipements de définis.
+         */
         $equipments = TableRegistry::get('equipments')->find('Equipments');
-        /*
+        if($equipments){
+            /*
          * Permet d'afficher uniquement les éléments de la table Equipments qui sont du matériel IT
          * cf: TableRegistry + les 2 foreach
          */
-        $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
-        foreach ($equipments as $key => $value){
-            foreach($itboolean as $k => $v)
-            {
-                if($key == $k){
-                    if ($v) $dropdown[] = $value;
+            $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
+            foreach ($equipments as $key => $value){
+                foreach($itboolean as $k => $v)
+                {
+                    if($key == $k){
+                        if ($v) $dropdown[] = $value;
+                    }
                 }
             }
-        }
-        if($dropdown){
-            $data['dropdown'] = $dropdown;
-        }
-
-        $itDevice = $this->ItDevices->newEntity();
-        if ($this->request->is('post')) {
-            $data = $this->request->data();
-
-            $itDevice->date_in = $data['date_in'];
-            $itDevice->date_out = $data['date_out'];
-            $itDevice->date_depreciated = $data['date_depreciated'];
-            $itDevice->price = $data['price'];
-            $itDevice->note = $data['note'];
-
-            if ($this->ItDevices->save($itDevice)) {
-                $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
+            if($dropdown){
+                $data['dropdown'] = $dropdown;
             }
+
+            $itDevice = $this->ItDevices->newEntity();
+            if ($this->request->is('post')) {
+                $data = $this->request->data();
+
+                $itDevice->date_in = $data['date_in'];
+                $itDevice->date_out = $data['date_out'];
+                $itDevice->date_depreciated = $data['date_depreciated'];
+                $itDevice->price = $data['price'];
+                $itDevice->note = $data['note'];
+
+                if ($this->ItDevices->save($itDevice)) {
+                    $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
+                }
+            }
+            $this->set(compact('itDevice', 'dropdown'));
+            $this->set('_serialize', ['itDevice']);
+        }else {
+            $this->Flash->error(__('Veuillez créer un type de matériel, avant de pouvoir créer une unité de matériel IT.'));
+            return $this->redirect(['controller'=>'equipments','action' => 'index']);
         }
-        $this->set(compact('itDevice', 'dropdown'));
-        $this->set('_serialize', ['itDevice']);
     }
 
     /**

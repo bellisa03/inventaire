@@ -77,9 +77,11 @@ class EquipmentsTable extends Table
 
     public function findEquipments(){
         $e = $this->find('all')->select(['id','title', 'brand', 'version']);
-
-        foreach ($e as $value) {
-            $t[$value->id] = $value->title . ' ' . $value->brand . ' ' . $value->version;
+        $t = null;
+        if($e){
+            foreach ($e as $value) {
+                $t[$value->id] = $value->title . ' ' . $value->brand . ' ' . $value->version;
+            }
         }
         return $t;
     }
