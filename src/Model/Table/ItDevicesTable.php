@@ -45,7 +45,7 @@ class ItDevicesTable extends Table
 
 
         ]);
-        
+
     }
     /**
      * Default validation rules.

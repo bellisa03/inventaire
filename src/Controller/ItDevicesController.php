@@ -99,27 +99,35 @@ class ItDevicesController extends AppController
          * cf: TableRegistry + les 2 foreach
          */
             $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
-            foreach ($equipments as $key => $value){
-                foreach($itboolean as $k => $v)
-                {
-                    if($key == $k){
-                        if ($v) $dropdown[] = $value;
+            if($itboolean){
+                foreach ($equipments as $key => $value){
+                    foreach($itboolean as $k => $v)
+                    {
+                        if($key == $k){
+                            if ($v) $dropdown[$k] = $value;
+                        }
                     }
                 }
-            }
-            if($dropdown){
                 $data['dropdown'] = $dropdown;
             }
+
 
             $itDevice = $this->ItDevices->newEntity();
             if ($this->request->is('post')) {
                 $data = $this->request->data();
 
-                $itDevice->date_in = $data['date_in'];
-                $itDevice->date_out = $data['date_out'];
-                $itDevice->date_depreciated = $data['date_depreciated'];
+                if($data['date_in']){
+                    $date_in = $data['date_in'];
+                    $dateString='';
+                    $dateString = Model::deconstruct($dateString, $date_in);
+                }
+
+                $itDevice->date_in = $dateString;
+                //$itDevice->date_out = $data['date_out'];
+                //$itDevice->date_depreciated = $data['date_depreciated'];
                 $itDevice->price = $data['price'];
                 $itDevice->note = $data['note'];
+                $itDevice->id_equipments = $data['id_equipments'];
 
                 if ($this->ItDevices->save($itDevice)) {
                     $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
@@ -176,13 +184,12 @@ class ItDevicesController extends AppController
             foreach($i as $k => $v)
             {
                 if($key == $k){
-                    if ($v) $dropdown[] = $value;
+                    if ($v) $dropdown[$k] = $value;
                 }
             }
         }
-        if($dropdown){
-            $data['dropdown'] = $dropdown;
-        }
+        $data['dropdown'] = $dropdown;
+
         $this->set(compact('itDevice', 'dropdown'));
         $this->set('_serialize', ['itDevice']);
     }

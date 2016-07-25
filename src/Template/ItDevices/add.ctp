@@ -13,8 +13,8 @@
             echo $this->Form->input('note',['label' => 'Note', 'type' =>'textarea']);
             echo $this->Form->input('price', ['label' => 'Prix']);
             echo $this->Form->input('date_in', ['label' => 'Date d\'achat', 'empty' => true]);
-            echo $this->Form->input('date_depreciated', ['label' => 'Date d\'amortissement', 'empty' => true]);
-            echo $this->Form->input('date_out', ['label' => 'Date de sortie', 'empty' => true]);
+            //echo $this->Form->input('date_depreciated', ['label' => 'Date d\'amortissement', 'empty' => true]);
+            //echo $this->Form->input('date_out', ['label' => 'Date de sortie', 'empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Sauvegarder')) ?>

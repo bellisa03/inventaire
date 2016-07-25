@@ -112,7 +112,7 @@ class FurnituresController extends AppController
             foreach ($equipments as $key => $value) {
                 foreach ($itboolean as $k => $v) {
                     if ($key == $k) {
-                        if (!$v) $dropdown[] = $value;
+                        if (!$v) $dropdown[$k] = $value;
                     }
                 }
             }

@@ -105,10 +105,6 @@ class AttributionsController extends AppController
         $data['depreciation'] = $depreciation;
 
         $this->set($data);
-
-
-        //$this->set(compact('attribution','itTitle','depreciation'));
-        //$this->set('attribution', $attribution);
         $this->set('_serialize', ['attribution']);
     }
 
