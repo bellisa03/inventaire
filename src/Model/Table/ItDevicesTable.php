@@ -104,4 +104,28 @@ class ItDevicesTable extends Table
         }
         return $t;
     }
+    public function findDates(){
+        $d = $this->find('all')->select(['id','date_in','date_out','date_depreciated']);
+        foreach ($d as $v){
+            if($v->date_depreciated){
+                $date = $v->date_depreciated;
+                foreach ($date as $key=>$value){
+                    if($key == 'date') $t[$v->id]['date_depreciated'] = $value;
+                }
+            }
+            if($v->date_in){
+                $date = $v->date_in;
+                foreach ($date as $key=>$value){
+                    if($key == 'date') $t[$v->id]['date_in'] = $value;
+                }
+            }
+            if($v->date_out){
+                $date = $v->date_out;
+                foreach ($date as $key=>$value){
+                    if($key == 'date') $t[$v->id]['date_out'] = $value;
+                }
+            }
+        }
+        return $t;
+    }
 }

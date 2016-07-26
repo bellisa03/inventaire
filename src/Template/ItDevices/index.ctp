@@ -32,9 +32,9 @@
                     ?></td>
                 <td><?= h($itDevice->note) ?></td>
                 <td><?= $this->Number->format($itDevice->price) ?></td>
-                <td><?= h($itDevice->date_in) ?></td>
-                <td><?= h($itDevice->date_depreciated) ?></td>
-                <td><?= h($itDevice->date_out) ?></td>
+                <td><?php echo ($itDevice->date_in)? $formattedDates['date_in'][$itDevice->id]: 'null';; ?></td>
+                <td><?php echo ($itDevice->date_depreciated)? $formattedDates['date_depreciated'][$itDevice->id]: 'null';; ?></td>
+                <td><?php echo ($itDevice->date_out)? $formattedDates['date_out'][$itDevice->id]: 'null';; ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $itDevice->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $itDevice->id]) ?>

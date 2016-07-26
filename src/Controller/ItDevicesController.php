@@ -22,7 +22,18 @@ class ItDevicesController extends AppController
     {
         $itDevices = $this->paginate($this->ItDevices->find('all')->contain(['Equipments']));
 
-        $this->set(compact('itDevices', 'equipments'));
+        $itDates = TableRegistry::get('itDevices')->find('Dates');
+
+        foreach ($itDates as $id=>$dates){
+            foreach ($dates as $key=>$value){
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$id] = $newTemp;
+            }
+
+        }
+
+        $this->set(compact('itDevices', 'equipments', 'formattedDates'));
         $this->set('_serialize', ['itDevices']);
     }
 
@@ -117,14 +128,17 @@ class ItDevicesController extends AppController
                 $data = $this->request->data();
 
                 if($data['date_in']){
-                    $date_in = $data['date_in'];
-                    $dateString='';
-                    $dateString = Model::deconstruct($dateString, $date_in);
+                    $date_in = $data['date_in']['year']. '-' . $data['date_in']['month']. '-' . $data['date_in']['day'];
                 }
-
-                $itDevice->date_in = $dateString;
-                //$itDevice->date_out = $data['date_out'];
-                //$itDevice->date_depreciated = $data['date_depreciated'];
+                if($data['date_out']){
+                    $date_out = $data['date_out']['year']. '-' . $data['date_out']['month']. '-' . $data['date_out']['day'];
+                }
+                if($data['date_depreciated']){
+                    $date_depreciated = $data['date_depreciated']['year']. '-' . $data['date_depreciated']['month']. '-' . $data['date_depreciated']['day'];
+                }
+                $itDevice->date_in = $date_in;
+                $itDevice->date_out = $date_out;
+                $itDevice->date_depreciated = $date_depreciated;
                 $itDevice->price = $data['price'];
                 $itDevice->note = $data['note'];
                 $itDevice->id_equipments = $data['id_equipments'];
@@ -158,9 +172,19 @@ class ItDevicesController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data();
-            $itDevice->date_in = $data['date_in'];
-            $itDevice->date_out = $data['date_out'];
-            $itDevice->date_depreciated = $data['date_depreciated'];
+
+            if($data['date_in']){
+                $date_in = $data['date_in']['year']. '-' . $data['date_in']['month']. '-' . $data['date_in']['day'];
+            }
+            if($data['date_out']){
+                $date_out = $data['date_out']['year']. '-' . $data['date_out']['month']. '-' . $data['date_out']['day'];
+            }
+            if($data['date_depreciated']){
+                $date_depreciated = $data['date_depreciated']['year']. '-' . $data['date_depreciated']['month']. '-' . $data['date_depreciated']['day'];
+            }
+            $itDevice->date_in = $date_in;
+            $itDevice->date_out = $date_out;
+            $itDevice->date_depreciated = $date_depreciated;
             $itDevice->price = $data['price'];
             $itDevice->note = $data['note'];
             $itDevice->id_equipments = $data['id_equipments'];

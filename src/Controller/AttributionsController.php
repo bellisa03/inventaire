@@ -46,6 +46,7 @@ class AttributionsController extends AppController
             $newTemp = $temp->format('d-m-Y');
             $depreciation[$key] = $newTemp;
         }
+        var_dump($depreciation);
         $this->set(compact('attributions','itTitle','depreciation'));
         $this->set('_serialize', ['attributions']);
     }
