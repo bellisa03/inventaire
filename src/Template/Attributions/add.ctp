@@ -8,6 +8,10 @@
     <fieldset style="padding-bottom: 30px">
         <legend><?= __('Ajouter une attribution') ?></legend>
         <?php
+            echo $this->Form->label('Matériel IT');
+            echo $this->Form->select('id_itdevices', $dropdown, ['class' => 'form-control']);
+            echo $this->Form->label('Utilisateur');
+            echo $this->Form->select('id_users', $users, ['class' => 'form-control']);
             echo $this->Form->input('date_start', ['empty' => true, 'label' => 'date de début']);
             echo $this->Form->input('date_end', ['empty' => true, 'label' => 'date de fin']);
         ?>

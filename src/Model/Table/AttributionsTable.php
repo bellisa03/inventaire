@@ -79,4 +79,23 @@ class AttributionsTable extends Table
 
         return $validator;
     }
+    public function findDates()
+    {
+        $d = $this->find('all')->select(['id', 'date_start', 'date_end']);
+        foreach ($d as $v) {
+            if ($v->date_start) {
+                $date = $v->date_start;
+                foreach ($date as $key => $value) {
+                    if ($key == 'date') $t[$v->id]['date_start'] = $value;
+                }
+            }
+            if ($v->date_end) {
+                $date = $v->date_end;
+                foreach ($date as $key => $value) {
+                    if ($key == 'date') $t[$v->id]['date_end'] = $value;
+                }
+            }
+        }
+        return $t;
+    }
 }

@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Database\Schema\Table;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -37,17 +38,28 @@ class AttributionsController extends AppController
             }
         }
         /*
+         * Formattage des dates de la table attribution
+         */
+        $attributionDates = TableRegistry::get('attributions')->find('Dates');
+
+        foreach ($attributionDates as $id=>$dates){
+            foreach ($dates as $key=>$value){
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$id] = $newTemp;
+            }
+        }
+
+        /*
          * L'utilisation de la variable suivante + la variable equipments définie ci-dessus, va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices
          */
-
         $date = TableRegistry::get('itDevices')->find('DateDepreciated');
         foreach($date as $key => $value){
             $temp = new \DateTime($value);
             $newTemp = $temp->format('d-m-Y');
             $depreciation[$key] = $newTemp;
         }
-        var_dump($depreciation);
-        $this->set(compact('attributions','itTitle','depreciation'));
+        $this->set(compact('attributions','itTitle','depreciation', 'formattedDates'));
         $this->set('_serialize', ['attributions']);
     }
 
@@ -88,6 +100,18 @@ class AttributionsController extends AppController
             }
         }
         /*
+         * Formattage des dates de la table attribution
+         */
+        $attributionDates = TableRegistry::get('attributions')->find('Dates');
+
+        foreach ($attributionDates as $i=>$dates){
+            foreach ($dates as $key=>$value){
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$i] = $newTemp;
+            }
+        }
+        /*
          * L'utilisation de la variable suivante + la variable equipments définie ci-dessus, va permettre de pouvoir afficher la date d'amortissement grâce à l'id de la table itDevices
          */
 
@@ -101,6 +125,7 @@ class AttributionsController extends AppController
         }
 
         $data['attribution'] = $attribution;
+        $data['formattedDates'] = $formattedDates;
         $data['user'] = $user;
         $data['itTitle'] = $itTitle;
         $data['depreciation'] = $depreciation;
@@ -116,18 +141,50 @@ class AttributionsController extends AppController
      */
     public function add()
     {
-        $attribution = $this->Attributions->newEntity();
-        if ($this->request->is('post')) {
-            $attribution = $this->Attributions->patchEntity($attribution, $this->request->data);
-            if ($this->Attributions->save($attribution)) {
-                $this->Flash->success(__('L\'attribution a bien été sauvegardée.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('L\'attribution n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
+        /**
+         * Tableau créé pour passer les matériels it dans la table "itDevice" à la vue
+         * Pour les afficher, il faut aussi aller chercher le descriptif du matériel dans la table "equipments"
+         * On vérifie d'abord qu'il y a bien des itDevices de définis.
+         */
+        $itDevices = TableRegistry::get('itDevices')->find('ItDevices');
+        if($itDevices){
+            $equipments = TableRegistry::get('equipments')->find('Equipments');
+            foreach ($equipments as $key => $value){
+                foreach($itDevices as $k => $v)
+                {
+                    if($key == $v){
+                        $dropdown[$k] = $value;
+                    }
+                }
             }
+            $users = TableRegistry::get('users')->find('Users');
+
+            $attribution = $this->Attributions->newEntity();
+            if ($this->request->is('post')) {
+                $data = $this->request->data();
+                if($data['date_start']){
+                    $date_start = $data['date_start']['year']. '-' . $data['date_start']['month']. '-' . $data['date_start']['day'];
+                }
+                if($data['date_end']){
+                    $date_end = $data['date_end']['year']. '-' . $data['date_end']['month']. '-' . $data['date_end']['day'];
+                }
+                $attribution->date_start = $date_start;
+                $attribution->date_end = $date_end;
+                $attribution->id_users = $data['id_users'];
+                $attribution->id_itdevices = $data['id_itdevices'];
+
+                if ($this->Attributions->save($attribution)) {
+                    $this->Flash->success(__('L\'attribution a bien été sauvegardée.'));
+                    return $this->redirect(['action' => 'index']);
+                } else {
+                    $this->Flash->error(__('L\'attribution n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
+                }
+            }
+            $this->set(compact('attribution', 'dropdown', 'users'));
+            $this->set('_serialize', ['attribution']);
+        }else {
+            $this->Flash->error(__('Veuillez avant tout créer un matériel IT.'));
         }
-        $this->set(compact('attribution'));
-        $this->set('_serialize', ['attribution']);
     }
 
     /**
@@ -143,7 +200,18 @@ class AttributionsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $attribution = $this->Attributions->patchEntity($attribution, $this->request->data);
+            $data = $this->request->data();
+            if($data['date_start']){
+                $date_start = $data['date_start']['year']. '-' . $data['date_start']['month']. '-' . $data['date_start']['day'];
+            }
+            if($data['date_end']){
+                $date_end = $data['date_end']['year']. '-' . $data['date_end']['month']. '-' . $data['date_end']['day'];
+            }
+            $attribution->date_start = $date_start;
+            $attribution->date_end = $date_end;
+            $attribution->id_users = $data['id_users'];
+            $attribution->id_itdevices = $data['id_itdevices'];
+
             if ($this->Attributions->save($attribution)) {
                 $this->Flash->success(__('L\'attribution a bien été sauvegardée.'));
                 return $this->redirect(['action' => 'index']);
@@ -151,7 +219,23 @@ class AttributionsController extends AppController
                 $this->Flash->error(__('L\'attribution n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
             }
         }
-        $this->set(compact('attribution'));
+        /*
+         * Tableau créé pour passer les matériels it dans la table "itDevice" à la vue
+         * Pour les afficher, il faut aussi aller chercher le descriptif du matériel dans la table "equipments"
+         */
+        $itDevices = TableRegistry::get('itDevices')->find('ItDevices');
+        $equipments = TableRegistry::get('equipments')->find('Equipments');
+        foreach ($equipments as $key => $value){
+            foreach($itDevices as $k => $v)
+            {
+                if($key == $v){
+                    $dropdown[$k] = $value;
+                }
+            }
+        }
+        $users = TableRegistry::get('users')->find('Users');
+
+        $this->set(compact('attribution', 'dropdown', 'users'));
         $this->set('_serialize', ['attribution']);
     }
 

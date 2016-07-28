@@ -27,11 +27,11 @@
         </tr>
         <tr>
             <th><?= __('Date de début') ?></th>
-            <td><?= h($attribution->date_start) ?></td>
+            <td><?php echo ($attribution->date_start)? $formattedDates['date_start'][$attribution->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Date de fin') ?></th>
-            <td><?= h($attribution->date_end) ?></td>
+            <td><?php echo ($attribution->date_end)? $formattedDates['date_end'][$attribution->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Date d\'amortissement') ?></th>
