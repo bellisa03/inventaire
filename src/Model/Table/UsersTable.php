@@ -33,6 +33,15 @@ class UsersTable extends Table
         $this->table('users');
         $this->displayField('id');
         $this->primaryKey('id');
+
+        /*
+         * Un user peut avoir plusieurs identifiant itdevices (0.n), j'ajoute donc la configuration suivante:
+         * */
+
+        $this->hasMany('ItDevices', [
+            'foreignKey' => 'id',
+            'bindingKey' => 'id_itdevices']);
+
     }
 
     /**

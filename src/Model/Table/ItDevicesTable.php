@@ -42,8 +42,6 @@ class ItDevicesTable extends Table
         $this->hasOne('Equipments', [
             'foreignKey' => 'id',
             'bindingKey' => 'id_equipments'
-
-
         ]);
 
     }

@@ -21,7 +21,7 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= h($user->login) ?></td>
+                <td><?= $this->Html->link($user->login, ['controller' => 'Attributions', 'action' => 'detail', $user->id])?></td>
                 <td><?= h($user->password) ?></td>
                 <td><?= h($user->nom) ?></td>
                 <td><?= h($user->prenom) ?></td>
