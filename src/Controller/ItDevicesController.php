@@ -30,7 +30,44 @@ class ItDevicesController extends AppController
                 $newTemp = $temp->format('d-m-Y');
                 $formattedDates[$key][$id] = $newTemp;
             }
+            if($key != 'date_out'){
+                $active[] = $id;
 
+            }
+        }
+        foreach ($itDevices as $value) {
+            foreach ($active as $v){
+                if ($value->id == $v) {
+                    $activeItDevices[] = $value;
+                }
+            }
+
+        }
+        if($activeItDevices){
+            $data['activeItDevices'] = $activeItDevices;
+        }
+
+        $this->set(compact('activeItDevices', 'equipments', 'formattedDates'));
+        $this->set('_serialize', ['activeItDevices']);
+    }
+
+    /*
+     * Méthode indexComplet:
+     * permet d'avoir une vue sur le matériel, même si celui-ci a une date de sortie, et ne fait donc plus partie de l'inventaire de façon active
+     */
+
+    public function indexComplet()
+    {
+        $itDevices = $this->paginate($this->ItDevices->find('all')->contain(['Equipments']));
+
+        $itDates = TableRegistry::get('itDevices')->find('Dates');
+
+        foreach ($itDates as $id=>$dates){
+            foreach ($dates as $key=>$value){
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$id] = $newTemp;
+            }
         }
 
         $this->set(compact('itDevices', 'equipments', 'formattedDates'));
@@ -54,13 +91,23 @@ class ItDevicesController extends AppController
         }
         if ($details) {
             $data['details'] = $details;
+
+            $itDates = TableRegistry::get('itDevices')->find('Dates');
+
+            foreach ($itDates as $i=>$dates) {
+                foreach ($dates as $key => $value) {
+                    $temp = new \DateTime($value);
+                    $newTemp = $temp->format('d-m-Y');
+                    $formattedDates[$key][$i] = $newTemp;
+                }
+            }
         }
         else {
             $this->Flash->error(__('Le type de matériel n\'a encore aucune unité de créée.'));
             return $this->redirect(['controller' => 'Equipments', 'action' => 'index']);
         }
 
-        $this->set(compact('details', 'equipments'));
+        $this->set(compact('details', 'equipments', 'formattedDates'));
         $this->set('_serialize', ['details']);
     }
     /**
@@ -85,6 +132,17 @@ class ItDevicesController extends AppController
                 $equipment = $value;
         }
 
+        $itDates = TableRegistry::get('itDevices')->find('Dates');
+
+        foreach ($itDates as $i=>$dates) {
+            foreach ($dates as $key => $value) {
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$i] = $newTemp;
+            }
+        }
+
+        $data['formattedDates'] = $formattedDates;
         $data['itDevice'] = $itDevice;
         $data['equipment'] = $equipment;
 

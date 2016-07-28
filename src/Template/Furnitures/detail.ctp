@@ -31,8 +31,8 @@
                 <td><?php echo ($detail->id_locations)?$detail->location->title:'null';; ?></td>
                 <td><?= h($detail->state) ?></td>
                 <td><?= $this->Number->format($detail->price) ?></td>
-                <td><?= h($detail->date_in) ?></td>
-                <td><?= h($detail->date_out) ?></td>
+                <td><?php echo ($detail->date_in)? $formattedDates['date_in'][$detail->id]: 'null';; ?></td>
+                <td><?php echo ($detail->date_out)? $formattedDates['date_out'][$detail->id]: 'null';; ?></td>
                 <td><?= h($detail->note) ?></td>
 
                 <td class="actions">

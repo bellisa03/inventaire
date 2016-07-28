@@ -32,9 +32,9 @@
                     ?></td>
                 <td><?= h($detail->note) ?></td>
                 <td><?= $this->Number->format($detail->price) ?></td>
-                <td><?= h($detail->date_in) ?></td>
-                <td><?= h($detail->date_depreciated) ?></td>
-                <td><?= h($detail->date_out) ?></td>
+                <td><?php echo ($detail->date_in)? $formattedDates['date_in'][$detail->id]: 'null';; ?></td>
+                <td><?php echo ($detail->date_depreciated)? $formattedDates['date_depreciated'][$detail->id]: 'null';; ?></td>
+                <td><?php echo ($detail->date_out)? $formattedDates['date_out'][$detail->id]: 'null';; ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $detail->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $detail->id]) ?>

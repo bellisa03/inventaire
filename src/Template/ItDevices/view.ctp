@@ -28,15 +28,15 @@
         </tr>
         <tr>
             <th><?= __('Date d\'achat') ?></th>
-            <td><?= h($itDevice->date_in) ?></td>
+            <td><?php echo ($itDevice->date_in)? $formattedDates['date_in'][$itDevice->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Date d\'amortissement') ?></th>
-            <td><?= h($itDevice->date_depreciated) ?></td>
+            <td><?php echo ($itDevice->date_depreciated)? $formattedDates['date_depreciated'][$itDevice->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Date de sortie') ?></th>
-            <td><?= h($itDevice->date_out) ?></td>
+            <td><?php echo ($itDevice->date_out)? $formattedDates['date_out'][$itDevice->id]: 'null';; ?></td>
         </tr>
     </table>
 </div>

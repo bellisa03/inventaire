@@ -32,11 +32,11 @@
         </tr>
         <tr>
             <th><?= __('Date d\'achat') ?></th>
-            <td><?= h($furniture->date_in) ?></td>
+            <td><?php echo ($furniture->date_in)? $formattedDates['date_in'][$furniture->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Date de sortie') ?></th>
-            <td><?= h($furniture->date_out) ?></td>
+            <td><?php echo ($furniture->date_out)? $formattedDates['date_out'][$furniture->id]: 'null';; ?></td>
         </tr>
         <tr>
             <th><?= __('Note') ?></th>
