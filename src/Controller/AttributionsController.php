@@ -27,6 +27,71 @@ class AttributionsController extends AppController
          */
 
         $equipments = TableRegistry::get('equipments')->find('Equipments');
+        $itdevices = TableRegistry::get('itDevices')->find('ItDevices');
+
+        foreach($itdevices as $key => $value){
+            foreach($equipments as $k => $v)
+            {
+                if($value == $k){
+                    $itTitle[$key] = $v;
+                }
+            }
+        }
+        /*
+         * Formattage des dates de la table attribution
+         */
+        $attributionDates = TableRegistry::get('attributions')->find('Dates');
+
+        foreach ($attributionDates as $id=>$dates){
+            foreach ($dates as $key=>$value){
+                $temp = new \DateTime($value);
+                $newTemp = $temp->format('d-m-Y');
+                $formattedDates[$key][$id] = $newTemp;
+            }
+                if($key != 'date_end'){
+                    $active[] = $id;
+                }
+        }
+        /*
+         * Boucle imbriquée Foreach qui permet de cibler uniquement les attributions encore en cours
+         */
+        foreach ($attributions as $value) {
+            foreach ($active as $v){
+                if ($value->id == $v) {
+                    $activeAttributions[] = $value;
+                }
+            }
+
+        }
+        if($activeAttributions){
+            $data['activeAttributions'] = $activeAttributions;
+        }
+        /*
+         * L'utilisation de la variable suivante + la variable equipments définie ci-dessus, va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices
+         */
+        $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+        foreach($date as $key => $value){
+            $temp = new \DateTime($value);
+            $newTemp = $temp->format('d-m-Y');
+            $depreciation[$key] = $newTemp;
+        }
+        $this->set(compact('activeAttributions','itTitle','depreciation', 'formattedDates'));
+        $this->set('_serialize', ['attributions']);
+    }
+
+    /*
+     * La fonction indexComplet renvoie un tableau contenant toutes les attributions (active et inactive)
+     */
+
+    public function indexComplet()
+    {
+        $attributions = $this->paginate($this->Attributions->find('all')->contain('Users'));
+
+        /*
+         * L'utilisation des 2 variables suivantes va permettre de pouvoir afficher le title de la table equipments en regard des id de la table itDevices
+         */
+
+        $equipments = TableRegistry::get('equipments')->find('Equipments');
         $itdevice = TableRegistry::get('itDevices')->find('ItDevices');
 
         foreach($itdevice as $key => $value){
@@ -221,7 +286,7 @@ class AttributionsController extends AppController
                 foreach($itDevices as $k => $v)
                 {
                     if($key == $v){
-                        $dropdown[$k] = $value;
+                        $dropdown[$k] = 'ID: ' . $k . ' - ' . $value;
                     }
                 }
             }
@@ -297,7 +362,7 @@ class AttributionsController extends AppController
             foreach($itDevices as $k => $v)
             {
                 if($key == $v){
-                    $dropdown[$k] = $value;
+                    $dropdown[$k] = 'ID: ' . $k . ' - ' . $value;
                 }
             }
         }

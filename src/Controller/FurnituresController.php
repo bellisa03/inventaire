@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Spacebellisa\excel;
 
 /**
  * Furnitures Controller
@@ -102,7 +103,109 @@ class FurnituresController extends AppController
        $this->set(compact('details', 'equipments', 'locations', 'formattedDates'));
        $this->set('_serialize', ['details']);
     }
+    /*
+         * Detail method:
+         * Permet d'afficher les détails d'un type de matériel.
+         * un equipment_id lui est passé en paramètre à partir d'un clic sur la quantité d'un type de matériel sur la page index
+         *
+         */
 
+        public function locationDetail($id = null)
+        {
+            $furnitures = $this->paginate($this->Furnitures->find('all')->contain(['Locations', 'Equipments']));
+            foreach ($furnitures as $value) {
+                if ($value->id_locations == $id) {
+                    $details[] = $value;
+                }
+            }
+            if ($details) {
+                $furnituresDates = TableRegistry::get('furnitures')->find('Dates');
+
+                foreach ($furnituresDates as $i=>$dates){
+                    foreach ($dates as $key=>$value){
+                        $temp = new \DateTime($value);
+                        $newTemp = $temp->format('d-m-Y');
+                        $formattedDates[$key][$i] = $newTemp;
+                    }
+                    if($key != 'date_out'){
+                        $active[] = $i;
+                    }
+                }
+                foreach ($details as $value) {
+                    foreach ($active as $v){
+                        if ($value->id == $v) {
+                            $activeFurnitures[] = $value;
+                        }
+                    }
+                }
+                if($activeFurnitures){
+                    $data['activeFurnitures'] = $activeFurnitures;
+                }
+            }
+            else {
+                $this->Flash->error(__('Le local ne contient encore aucun mobilier.'));
+                return $this->redirect(['controller' => 'Furnitures', 'action' => 'index']);
+            }
+
+            $this->set(compact('activeFurnitures', 'equipments', 'locations', 'formattedDates'));
+            $this->set('_serialize', ['details']);
+        }
+
+        public function exporter($id = null){
+            $furnitures = $this->paginate($this->Furnitures->find('all')->contain(['Locations', 'Equipments']));
+            foreach ($furnitures as $value) {
+                if ($value->id_locations == $id) {
+                    $details[] = $value;
+                }
+            }
+            $furnituresDates = TableRegistry::get('furnitures')->find('Dates');
+            foreach ($furnituresDates as $i=>$dates){
+                foreach ($dates as $key=>$value){
+                    $temp = new \DateTime($value);
+                    $newTemp = $temp->format('d-m-Y');
+                    $formattedDates[$key][$i] = $newTemp;
+                }
+                if($key != 'date_out'){
+                    $active[] = $i;
+                }
+            }
+            foreach ($details as $value) {
+                foreach ($active as $v){
+                    if ($value->id == $v) {
+                        $activeFurnitures[] = $value;
+                    }
+                }
+            }
+            foreach($activeFurnitures as $activeFurniture)
+            {
+
+            }
+
+            /*
+             *Mise en place du fichier excel
+             */
+
+            $excel = new excel\Excel();
+            $sheet = $excel->getActiveSheet();
+
+            $styleTitre = $sheet->getStyle('A1');
+            $styleTitre->applyFromArray(array(
+                'font'=>array(
+                    'bold'=>true,
+                    'size'=>18,
+                    'name'=>'Verdana',
+                    'color'=>array(
+                        'rgb'=>'FF0000FF'))
+                ));
+
+            $sheet->setCellValue('A1', 'Inventorix');
+            $sheet->setCellValue('A2', 'Local ' . $activeFurnitures[0]->location->title);
+            $sheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
+            $sheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
+            $sheet->getPageSetup()->getFitToWidth(1);
+
+            $excel->affiche('Excel2007', 'MonPremierFichier');
+        }
     /**
      * View method
      *

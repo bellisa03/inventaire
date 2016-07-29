@@ -20,7 +20,7 @@
             <?php foreach ($locations as $location): ?>
             <tr>
                 <td><?= $this->Number->format($location->id) ?></td>
-                <td><?= h($location->title) ?></td>
+                <td><?= $this->Html->link($location->title, ['controller' => 'Furnitures', 'action' => 'locationDetail', $location->id])?></td>
                 <td><?= h($location->building) ?></td>
                 <td><?= $this->Number->format($location->floor) ?></td>
                 <td><?= h($location->description) ?></td>
