@@ -26,7 +26,7 @@
                 <td><?php echo ($itTitle[$activeAttribution->id_itdevices])? $itTitle[$activeAttribution->id_itdevices]: 'null' ?></td>
                 <td><?php echo ($activeAttribution->id_users)?$activeAttribution->user->login:'null' ?></td>
                 <td><?php echo ($activeAttribution->date_start)? $formattedDates['date_start'][$activeAttribution->id]: 'null';; ?></td>
-                <td><?php echo ($activeAttribution->date_depreciated)? $depreciation[$activeAttribution->id_itdevices]: 'null' ;;?></td>
+                <td><?php echo ($depreciation[$activeAttribution->id_itdevices])? $depreciation[$activeAttribution->id_itdevices]: 'null' ;;?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $activeAttribution->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $activeAttribution->id]) ?>

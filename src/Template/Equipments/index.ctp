@@ -17,7 +17,6 @@
                 <th><?= $this->Paginator->sort('Quantité') ?></th>
                 <th><?= $this->Paginator->sort('Description') ?></th>
                 <th><?= $this->Paginator->sort('Matériel IT') ?></th>
-                <th><?= $this->Paginator->sort('Code barre') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -31,7 +30,6 @@
                 <td><?= $equipment->itdevice ? $this->Html->link($this->Number->format($equipment->quantity), ['controller' => 'ItDevices', 'action' => 'detail', $equipment->id]) : $this->Html->link($this->Number->format($equipment->quantity), ['controller' => 'Furnitures', 'action' => 'detail', $equipment->id]);  ?></td>
                 <td><?= h($equipment->description) ?></td>
                 <td><?= $equipment->itdevice ? __('Oui') : __('Non'); ?></td>
-                <td><?= $this->Number->format($equipment->barcode) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $equipment->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $equipment->id]) ?>

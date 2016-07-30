@@ -43,7 +43,6 @@ class ItDevicesTable extends Table
             'foreignKey' => 'id',
             'bindingKey' => 'id_equipments'
         ]);
-
     }
     /**
      * Default validation rules.

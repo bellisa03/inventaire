@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Spacebellisa\excel;
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 /**
  * Furnitures Controller
@@ -173,13 +174,12 @@ class FurnituresController extends AppController
                 foreach ($active as $v){
                     if ($value->id == $v) {
                         $activeFurnitures[] = $value;
+                        $generator = new BarcodeGeneratorPNG();
+                        $barcode[$value->id] = base64_encode($generator->getBarcode($value->barcode,$generator::TYPE_EAN_8));
                     }
                 }
             }
-            foreach($activeFurnitures as $activeFurniture)
-            {
 
-            }
 
             /*
              *Mise en place du fichier excel
@@ -195,16 +195,110 @@ class FurnituresController extends AppController
                     'size'=>18,
                     'name'=>'Verdana',
                     'color'=>array(
-                        'rgb'=>'FF0000FF'))
+                        'argb'=>'FF000080'))
                 ));
 
+            $styleSousTitre = $sheet->getStyle('A2');
+            $styleSousTitre->applyFromArray(array(
+                'font'=>array(
+                    'bold'=>true,
+                    'size'=>16,
+                    'name'=>'Verdana'),
+                'borders'=>array(
+                    'bottom'=>array(
+                        'style'=>\PHPExcel_Style_Border::BORDER_MEDIUM))
+            ));
+            $styleTitreColonne = $sheet->getStyle('A3:G3');
+            $styleTitreColonne->applyFromArray(array(
+                'font'=>array(
+                    'bold'=>true,
+                    'size'=>12,
+                    'name'=>'Verdana'),
+                'borders'=>array(
+                    'allborders'=>array(
+                        'style'=>\PHPExcel_Style_Border::BORDER_THIN))
+            ));
+
             $sheet->setCellValue('A1', 'Inventorix');
-            $sheet->setCellValue('A2', 'Local ' . $activeFurnitures[0]->location->title);
+            $sheet->setCellValue('A2', 'Local: ' . $activeFurnitures[0]->location->title);
+            $sheet->setCellValue('A3', 'Id');
+            $sheet->setCellValue('B3', 'Matériel');
+            $sheet->setCellValue('C3', 'Marque');
+            $sheet->setCellValue('D3', 'Version');
+            $sheet->setCellValue('E3', 'Etat');
+            $sheet->setCellValue('F3', 'Date d\'achat');
+            $sheet->setCellValue('G3', 'Code barre');
+            $sheet->mergeCells('A1:G1');
+            $sheet->mergeCells('A2:G2');
+            $sheet->getColumnDimension('B')->setWidth(20);
+            $sheet->getColumnDimension('C')->setWidth(20);
+            $sheet->getColumnDimension('D')->setWidth(40);
+            $sheet->getColumnDimension('E')->setWidth(15);
+            $sheet->getColumnDimension('F')->setWidth(20);
+            $sheet->getColumnDimension('G')->setWidth(40);
+
+            $i = 3;
+            foreach($activeFurnitures as $activeFurniture)
+            {
+                $i++;
+                $sheet->setCellValue('A'.$i , $activeFurniture->id);
+                $sheet->setCellValue('B'.$i , $activeFurniture->equipment->title);
+                $sheet->setCellValue('C'.$i , $activeFurniture->equipment->brand);
+                $sheet->setCellValue('D'.$i , $activeFurniture->equipment->version);
+                $sheet->setCellValue('E'.$i , $activeFurniture->state);
+                $sheet->setCellValue('F'.$i , $formattedDates['date_in'][$activeFurniture->id]);
+
+
+
+                $sheet->setCellValue('G'.$i , $barcode[$activeFurniture->id]);
+                $sheet->getRowDimension($i)->setRowHeight(50);
+            }
+
+            $styleContenu = $sheet->getStyle('A4:G'.$i);
+            $styleContenu->applyFromArray(array(
+                'font'=>array(
+                    'size'=>10,
+                    'name'=>'Verdana'),
+                'alignment'=> array(
+                    'horizontal'=> \PHPExcel_Style_Alignment::HORIZONTAL_LEFT,
+                    'vertical'=> \PHPExcel_Style_Alignment::VERTICAL_CENTER),
+                'borders'=>array(
+                    'allborders'=>array(
+                        'style'=>\PHPExcel_Style_Border::BORDER_THIN))
+            ));
+
+//            $sheet->duplicateStyleArray(
+//                array(
+//                    'font'    => array(
+//                        'bold'      => true
+//                    ),
+//                    'alignment' => array(
+//                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
+//                    ),
+//                    'borders' => array(
+//                        'top'     => array(
+//                            'style' => PHPExcel_Style_Border::BORDER_THIN
+//                        )
+//                    ),
+//                    'fill' => array(
+//                        'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
+//                        'rotation'   => 90,
+//                        'startcolor' => array(
+//                            'argb' => 'FFA0A0A0'
+//                        ),
+//                        'endcolor'   => array(
+//                            'argb' => 'FFFFFFFF'
+//                        )
+//                    )
+//                ),
+//                'A3:E3'
+//            );
+
             $sheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
             $sheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
             $sheet->getPageSetup()->getFitToWidth(1);
 
-            $excel->affiche('Excel2007', 'MonPremierFichier');
+            $excel->affiche('Excel2007', 'ExportationLocal' . $activeFurnitures[0]->location->title);
         }
     /**
      * View method

@@ -202,8 +202,8 @@ class ItDevicesController extends AppController
                 $itDevice->id_equipments = $data['id_equipments'];
 
                 if ($this->ItDevices->save($itDevice)) {
-                    $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
-                    return $this->redirect(['action' => 'index']);
+                    $this->Flash->success(__('Le matériel IT a été sauvegardé. Veuillez créer une attribution pour ce matériel'));
+                    return $this->redirect(['controller'=>'Attributions','action' => 'index']);
                 } else {
                     $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
                 }
@@ -248,7 +248,7 @@ class ItDevicesController extends AppController
             $itDevice->id_equipments = $data['id_equipments'];
 
             if ($this->ItDevices->save($itDevice)) {
-                $this->Flash->success(__('Le matériel IT a été sauvegardé.'));
+                $this->Flash->success(__('Le matériel IT a été sauvegardé. Veuillez éventuellement adapter l\'attribution'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));

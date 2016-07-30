@@ -93,4 +93,12 @@ class EquipmentsTable extends Table
         }
         return $t;
     }
+    public function findBarcode(){
+        $e = $this->find('all')->select(['id', 'barcode']);
+
+        foreach ($e as $value) {
+            $t[$value->id] = $value->barcode;
+        }
+        return $t;
+    }
 }

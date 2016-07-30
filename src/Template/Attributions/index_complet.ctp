@@ -5,7 +5,7 @@
     </ul>
 </nav>
 <div class="form-group" style="padding-bottom: 30px">
-    <h3><?= __('Attributions') ?></h3>
+    <h3><?= __('Attributions actives et inactives') ?></h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -28,7 +28,7 @@
                 <td><?php echo ($attribution->id_users)?$attribution->user->login:'null' ?></td>
                 <td><?php echo ($attribution->date_start)? $formattedDates['date_start'][$attribution->id]: 'null';; ?></td>
                 <td><?php echo ($attribution->date_end)? $formattedDates['date_end'][$attribution->id]: 'null';; ?></td>
-                <td><?php echo ($attribution->date_depreciated)? $depreciation[$attribution->id_itdevices]: 'null' ;;?></td>
+                <td><?php echo ($depreciation[$attribution->id_itdevices])? $depreciation[$attribution->id_itdevices]: 'null' ;;?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $attribution->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $attribution->id]) ?>

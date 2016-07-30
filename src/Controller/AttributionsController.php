@@ -23,7 +23,7 @@ class AttributionsController extends AppController
         $attributions = $this->paginate($this->Attributions->find('all')->contain('Users'));
 
         /*
-         * L'utilisation des 2 variables suivantes va permettre de pouvoir afficher le title de la table equipments en regard des id de la table itDevices
+         * L'utilisation des 2 variables suivantes va permettre de pouvoir afficher le title de la table equipments ($v) en regard des id de la table itDevices ($key)
          */
 
         $equipments = TableRegistry::get('equipments')->find('Equipments');
@@ -34,6 +34,19 @@ class AttributionsController extends AppController
             {
                 if($value == $k){
                     $itTitle[$key] = $v;
+                    /*
+                    * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
+                    * Cette boucle foreach est imbriquée ici afin de pouvoir disposer d'un tableau ayant un id pour chacun des itDevices qui apparaitront sur l'index.
+                    */
+                    $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+                    foreach($date as $keyDate => $valueDate){
+                        if($key != $keyDate) {
+                            $depreciation[$key] = 'null';
+                        }
+                        $temp = new \DateTime($valueDate);
+                        $newTemp = $temp->format('d-m-Y');
+                        $depreciation[$keyDate] = $newTemp;
+                    }
                 }
             }
         }
@@ -61,19 +74,9 @@ class AttributionsController extends AppController
                     $activeAttributions[] = $value;
                 }
             }
-
         }
         if($activeAttributions){
             $data['activeAttributions'] = $activeAttributions;
-        }
-        /*
-         * L'utilisation de la variable suivante + la variable equipments définie ci-dessus, va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices
-         */
-        $date = TableRegistry::get('itDevices')->find('DateDepreciated');
-        foreach($date as $key => $value){
-            $temp = new \DateTime($value);
-            $newTemp = $temp->format('d-m-Y');
-            $depreciation[$key] = $newTemp;
         }
         $this->set(compact('activeAttributions','itTitle','depreciation', 'formattedDates'));
         $this->set('_serialize', ['attributions']);
@@ -99,6 +102,19 @@ class AttributionsController extends AppController
             {
                 if($value == $k){
                     $itTitle[$key] = $v;
+                    /*
+                    * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
+                    * Cette boucle foreach est imbriquée ici afin de pouvoir disposer d'un tableau ayant un id pour chacun des itDevices qui apparaitront sur l'index.
+                    */
+                    $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+                    foreach($date as $keyDate => $valueDate){
+                        if($key != $keyDate) {
+                            $depreciation[$key] = 'null';
+                        }
+                        $temp = new \DateTime($valueDate);
+                        $newTemp = $temp->format('d-m-Y');
+                        $depreciation[$keyDate] = $newTemp;
+                    }
                 }
             }
         }
@@ -115,15 +131,6 @@ class AttributionsController extends AppController
             }
         }
 
-        /*
-         * L'utilisation de la variable suivante + la variable equipments définie ci-dessus, va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices
-         */
-        $date = TableRegistry::get('itDevices')->find('DateDepreciated');
-        foreach($date as $key => $value){
-            $temp = new \DateTime($value);
-            $newTemp = $temp->format('d-m-Y');
-            $depreciation[$key] = $newTemp;
-        }
         $this->set(compact('attributions','itTitle','depreciation', 'formattedDates'));
         $this->set('_serialize', ['attributions']);
     }
