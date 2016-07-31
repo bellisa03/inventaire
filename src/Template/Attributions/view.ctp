@@ -35,7 +35,7 @@
         </tr>
         <tr>
             <th><?= __('Date d\'amortissement') ?></th>
-            <td><?= h($depreciation[$attribution->id_itdevices]) ?></td>
+            <td><?php echo (isset($depreciation[$attribution->id_itdevices]))? $depreciation[$attribution->id_itdevices]: 'null' ;;?></td>
         </tr>
     </table>
 </div>

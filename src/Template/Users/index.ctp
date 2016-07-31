@@ -5,6 +5,7 @@
 </nav>
 <div class="users index large-9 medium-8 columns content">
     <h3><?= __('Utilisateurs') ?></h3>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -21,7 +22,7 @@
             <?php foreach ($users as $user): ?>
             <tr>
                 <td><?= $this->Number->format($user->id) ?></td>
-                <td><?= $this->Html->link($user->login, ['controller' => 'Attributions', 'action' => 'detail', $user->id])?></td>
+                <td><?= $this->Html->link($user->login, ['controller' => 'Attributions', 'action' => 'userDetail', $user->id])?></td>
                 <td><?= h($user->password) ?></td>
                 <td><?= h($user->nom) ?></td>
                 <td><?= h($user->prenom) ?></td>
@@ -35,6 +36,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <p><?= __('Cliquez sur le login de l\'utilisateur pour voir sa liste de matériel IT') ?></p>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('précédent')) ?>

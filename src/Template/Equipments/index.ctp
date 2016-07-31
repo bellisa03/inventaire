@@ -39,6 +39,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <p><?= __('Cliquez sur la quantité d\'un type de matériel pour voir ses différentes unités') ?></p>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('précédent')) ?>

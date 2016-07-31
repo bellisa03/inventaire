@@ -1,11 +1,10 @@
 <nav role="navigation" style="padding-bottom: 30px">
     <ul class="nav nav-pills">
         <li role="presentation"><?= $this->Html->link(__('Nouvelle attribution'), ['action' => 'add']) ?></li>
-        <li role="presentation"><?= $this->Html->link(__('Listing des attributions actives'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="form-group" style="padding-bottom: 30px">
-    <h3><?= __('Attributions actives et inactives') ?></h3>
+    <h3><?= __('Fiche détaillée de l\'utilisateur') ?></h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -20,19 +19,19 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($attributions as $attribution): ?>
+            <?php foreach ($details as $detail): ?>
             <tr>
-                <td><?php echo $attribution->id ?></td>
-                <td><?php echo $attribution->id_itdevices ?></td>
-                <td><?php echo ($itTitle[$attribution->id_itdevices])? $itTitle[$attribution->id_itdevices]: 'null' ?></td>
-                <td><?php echo ($attribution->id_users)?$attribution->user->login:'null' ?></td>
-                <td><?php echo ($attribution->date_start)? $formattedDates['date_start'][$attribution->id]: 'null';; ?></td>
-                <td><?php echo ($attribution->date_end)? $formattedDates['date_end'][$attribution->id]: 'null';; ?></td>
-                <td><?php echo (isset($depreciation[$attribution->id_itdevices]))? $depreciation[$attribution->id_itdevices]: 'null' ;;?></td>
+                <td><?php echo $detail->id ?></td>
+                <td><?php echo ($detail->id_itdevices)?$detail->it_device->id:'null'  ?></td>
+                <td><?php echo ($itTitle[$detail->id_itdevices])? $itTitle[$detail->id_itdevices]: 'null' ?></td>
+                <td><?php echo ($detail->id_users)?$detail->user->login:'null' ?></td>
+                <td><?php echo ($detail->date_start)? $formattedDates['date_start'][$detail->id]: 'null';; ?></td>
+                <td><?php echo ($detail->date_end)? $formattedDates['date_end'][$detail->id]: 'null';; ?></td>
+                <td><?php echo (isset($depreciation[$detail->id_itdevices]))? $depreciation[$detail->id_itdevices]: 'null' ;;?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('Afficher'), ['action' => 'view', $attribution->id]) ?>
-                    <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $attribution->id]) ?>
-                    <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $attribution->id], ['confirm' => __('Etes-vous sûr de vouloir supprimer l\'attribution # {0}?', $attribution->id)]) ?>
+                    <?= $this->Html->link(__('Afficher'), ['action' => 'view', $detail->id]) ?>
+                    <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $detail->id]) ?>
+                    <?= $this->Form->postLink(__('Supprimer'), ['action' => 'delete', $detail->id], ['confirm' => __('Etes-vous sûr de vouloir supprimer l\'attribution # {0}?', $detail->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

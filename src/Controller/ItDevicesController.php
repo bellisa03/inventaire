@@ -203,7 +203,7 @@ class ItDevicesController extends AppController
 
                 if ($this->ItDevices->save($itDevice)) {
                     $this->Flash->success(__('Le matériel IT a été sauvegardé. Veuillez créer une attribution pour ce matériel'));
-                    return $this->redirect(['controller'=>'Attributions','action' => 'index']);
+                    return $this->redirect(['controller'=>'Attributions','action' => 'addUserAttribution', $itDevice->id]);
                 } else {
                     $this->Flash->error(__('Le matériel IT n\'a pu être sauvegardé. Veuillez essayer à nouveau.'));
                 }

@@ -33,6 +33,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <p><?= __('Cliquez sur la dénommination d\'un local pour voir le mobilier qu\'il contient') ?></p>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('précédent')) ?>

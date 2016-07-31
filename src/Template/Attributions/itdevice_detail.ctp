@@ -4,7 +4,7 @@
     </ul>
 </nav>
 <div class="form-group" style="padding-bottom: 30px">
-    <h3><?= __('Fiche détaillée de l\'utilisateur') ?></h3>
+    <h3><?= __('Fiche détaillée du matériel IT') ?></h3>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -27,7 +27,7 @@
                 <td><?php echo ($detail->id_users)?$detail->user->login:'null' ?></td>
                 <td><?php echo ($detail->date_start)? $formattedDates['date_start'][$detail->id]: 'null';; ?></td>
                 <td><?php echo ($detail->date_end)? $formattedDates['date_end'][$detail->id]: 'null';; ?></td>
-                <td><?php echo ($detail->date_depreciated)? $depreciation[$detail->it_device->id]: 'null' ?></td>
+                <td><?php echo (isset($depreciation[$detail->id_itdevices]))? $depreciation[$detail->id_itdevices]: 'null' ;;?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $detail->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $detail->id]) ?>

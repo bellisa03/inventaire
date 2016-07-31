@@ -23,7 +23,7 @@
         <tbody>
             <?php foreach ($activeItDevices as $activeItDevice): ?>
             <tr>
-                <td><?= $this->Number->format($activeItDevice->id) ?></td>
+                <td><?= $this->Html->link($activeItDevice->id, ['controller' => 'Attributions', 'action' => 'itdeviceDetail', $activeItDevice->id])?></td>
                 <td> <?php echo ($activeItDevice->id_equipments)?$activeItDevice->equipment->title:'null';;
                     ?></td>
                 <td> <?php echo ($activeItDevice->id_equipments)?$activeItDevice->equipment->brand:'null';;
@@ -43,6 +43,7 @@
             <?php endforeach; ?>
         </tbody>
     </table>
+    <p><?= __('Cliquez sur l\'ID du matériel IT pour voir sa liste d\'attribution') ?></p>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('précédent')) ?>

@@ -34,19 +34,6 @@ class AttributionsController extends AppController
             {
                 if($value == $k){
                     $itTitle[$key] = $v;
-                    /*
-                    * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
-                    * Cette boucle foreach est imbriquée ici afin de pouvoir disposer d'un tableau ayant un id pour chacun des itDevices qui apparaitront sur l'index.
-                    */
-                    $date = TableRegistry::get('itDevices')->find('DateDepreciated');
-                    foreach($date as $keyDate => $valueDate){
-                        if($key != $keyDate) {
-                            $depreciation[$key] = 'null';
-                        }
-                        $temp = new \DateTime($valueDate);
-                        $newTemp = $temp->format('d-m-Y');
-                        $depreciation[$keyDate] = $newTemp;
-                    }
                 }
             }
         }
@@ -64,6 +51,15 @@ class AttributionsController extends AppController
                 if($key != 'date_end'){
                     $active[] = $id;
                 }
+        }
+        /*
+         * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
+         */
+        $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+        foreach($date as $keyDate => $valueDate) {
+            $temp = new \DateTime($valueDate);
+            $newTemp = $temp->format('d-m-Y');
+            $depreciation[$keyDate] = $newTemp;
         }
         /*
          * Boucle imbriquée Foreach qui permet de cibler uniquement les attributions encore en cours
@@ -102,19 +98,6 @@ class AttributionsController extends AppController
             {
                 if($value == $k){
                     $itTitle[$key] = $v;
-                    /*
-                    * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
-                    * Cette boucle foreach est imbriquée ici afin de pouvoir disposer d'un tableau ayant un id pour chacun des itDevices qui apparaitront sur l'index.
-                    */
-                    $date = TableRegistry::get('itDevices')->find('DateDepreciated');
-                    foreach($date as $keyDate => $valueDate){
-                        if($key != $keyDate) {
-                            $depreciation[$key] = 'null';
-                        }
-                        $temp = new \DateTime($valueDate);
-                        $newTemp = $temp->format('d-m-Y');
-                        $depreciation[$keyDate] = $newTemp;
-                    }
                 }
             }
         }
@@ -130,19 +113,27 @@ class AttributionsController extends AppController
                 $formattedDates[$key][$id] = $newTemp;
             }
         }
+        /*
+         * L'utilisation de la variable $date va permettre de pouvoir afficher la date d'amortissement en regard des id de la table itDevices.
+         */
+        $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+        foreach($date as $keyDate => $valueDate) {
+            $temp = new \DateTime($valueDate);
+            $newTemp = $temp->format('d-m-Y');
+            $depreciation[$keyDate] = $newTemp;
+        }
 
         $this->set(compact('attributions','itTitle','depreciation', 'formattedDates'));
         $this->set('_serialize', ['attributions']);
     }
 
     /*
-         * Detail method:
-         * Permet d'afficher les détails d'un type de matériel.
-         * un equipment_id lui est passé en paramètre à partir d'un clic sur la quantité d'un type de matériel sur la page index
-         *
-         */
+     * userDetail method:
+     * Permet d'afficher les détails d'un type de matériel par rapport à un utilisateur.
+     * un user_id lui est passé en paramètre à partir d'un clic sur le login du user sur la page index du modèle User
+     */
 
-    public function detail($id = null)
+    public function userDetail($id = null)
     {
         $attributions = $this->paginate($this->Attributions->find('all')->contain(['ItDevices', 'Users']));
         foreach ($attributions as $value) {
@@ -197,7 +188,77 @@ class AttributionsController extends AppController
             $data['formattedDates'] = $formattedDates;
         } else {
             $this->Flash->error(__('L\'utilisateur n\'a encore aucune attribution de matériel.'));
-            return $this->redirect(['controller' => 'Users', 'action' => 'index']);
+            return $this->redirect(['controller' => 'Attributions', 'action' => 'index']);
+        }
+
+        $this->set($data);
+        $this->set('_serialize', ['details']);
+    }
+    /*
+        * itdeviceDetail method:
+        * Permet d'afficher les détails d'un type de matériel.
+        * un itdevice id lui est passé en paramètre à partir d'un clic sur l'ID d'un itdevice sur la page index du modèle ItDevices
+        *
+        */
+
+    public function itdeviceDetail($id = null)
+    {
+        $attributions = $this->paginate($this->Attributions->find('all')->contain(['ItDevices', 'Users']));
+        foreach ($attributions as $value) {
+            if($value->id_itdevices == $id) {
+                $details[] = $value;
+
+            }
+        }
+        if ($details) {
+            $data['details'] = $details;
+
+            /*
+            * Les foreach imbriqués suivants vont permettre de pouvoir afficher le title de la table equipments avec l'id de la table itDevices
+            */
+            $e = TableRegistry::get('equipments')->find('Equipments');
+            foreach($details as $value){
+                foreach($e as $k => $v){
+                    if($value->it_device->id_equipments == $k){
+                        $itTitle[$value->it_device->id] = $v;
+                    }
+                }
+            }
+            /*
+            * Formattage des dates de la table attribution
+            */
+            $attributionDates = TableRegistry::get('attributions')->find('Dates');
+
+            foreach ($attributionDates as $i=>$dates){
+                foreach ($dates as $key=>$value){
+                    $temp = new \DateTime($value);
+                    $newTemp = $temp->format('d-m-Y');
+                    $formattedDates[$key][$i] = $newTemp;
+                }
+            }
+            /*
+             * L'utilisation de la variable suivante + la variable details (qui contient les attributions de l'utilisateur)
+             *  va permettre de pouvoir afficher la date d'amortissement grâce à l'id de la table itDevices
+             */
+            $date = TableRegistry::get('itDevices')->find('DateDepreciated');
+            foreach($date as $key => $value){
+                foreach($details as $k){
+                    if($key == $k->id_itdevices){
+                        $temp = new \DateTime($value);
+                        $newTemp = $temp->format('d-m-Y');
+                        $depreciation[$key] = $newTemp;
+                    }
+                    else $depreciation[$key] = 'null';
+                }
+            }
+
+            $data['itTitle'] = $itTitle;
+            $data['depreciation'] = $depreciation;
+            $data['formattedDates'] = $formattedDates;
+
+        } else {
+            $this->Flash->error(__('L\'unité de matériel IT n\'a pas encore été attribuée à un utilisateur.'));
+            return $this->redirect(['controller' => 'Attributions', 'action' => 'index']);
         }
 
         $this->set($data);
@@ -327,6 +388,57 @@ class AttributionsController extends AppController
         }
     }
 
+    /*
+     * addUserAttribution method:
+     * prend l'id d'un user en paramètre et est déclenché à l'ajout d'un utilisateur
+     *
+     */
+    public function addUserAttribution($id=null)
+    {
+        /**
+         * Tableau créé pour passer le matériel it de la table "itDevice" à la vue
+         * Pour l'afficher, il faut aussi aller chercher le descriptif du matériel dans la table "equipments"
+         */
+        $itDevices = TableRegistry::get('itDevices')->find('ItDevices');
+        foreach($itDevices as $k => $v)
+        {
+            if($k == $id){
+                $idEquipment = $v;
+            }
+        }
+        $equipments = TableRegistry::get('equipments')->find('Equipments');
+        foreach ($equipments as $key => $value){
+            if($key == $idEquipment){
+                $itDeviceLabel = 'ID: ' . $id . ' - ' . $value;
+            }
+
+        }
+        $users = TableRegistry::get('users')->find('Users');
+
+        $attribution = $this->Attributions->newEntity();
+        if ($this->request->is('post')) {
+            $data = $this->request->data();
+            if($data['date_start']){
+                $date_start = $data['date_start']['year']. '-' . $data['date_start']['month']. '-' . $data['date_start']['day'];
+            }
+            if($data['date_end']){
+                $date_end = $data['date_end']['year']. '-' . $data['date_end']['month']. '-' . $data['date_end']['day'];
+            }
+            $attribution->date_start = $date_start;
+            $attribution->date_end = $date_end;
+            $attribution->id_users = $data['id_users'];
+            $attribution->id_itdevices = $id;
+
+            if ($this->Attributions->save($attribution)) {
+                $this->Flash->success(__('L\'attribution a bien été sauvegardée.'));
+                return $this->redirect(['action' => 'index']);
+            } else {
+                $this->Flash->error(__('L\'attribution n\'a pu être sauvegardée. Veuillez essayer à nouveau.'));
+            }
+        }
+        $this->set(compact('attribution', 'itDeviceLabel', 'users'));
+        $this->set('_serialize', ['attribution']);
+    }
     /**
      * Edit method
      *
