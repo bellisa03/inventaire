@@ -27,15 +27,15 @@
         </tr>
         <tr>
             <th><?= __('Date de début') ?></th>
-            <td><?php echo ($attribution->date_start)? $formattedDates['date_start'][$attribution->id]: 'null';; ?></td>
+            <td><?php echo ($attribution->date_start)? $formattedDates['date_start'][$attribution->id]: 'null' ?></td>
         </tr>
         <tr>
             <th><?= __('Date de fin') ?></th>
-            <td><?php echo ($attribution->date_end)? $formattedDates['date_end'][$attribution->id]: 'null';; ?></td>
+            <td><?php echo ($attribution->date_end)? $formattedDates['date_end'][$attribution->id]: 'null' ?></td>
         </tr>
         <tr>
             <th><?= __('Date d\'amortissement') ?></th>
-            <td><?php echo (isset($depreciation[$attribution->id_itdevices]))? $depreciation[$attribution->id_itdevices]: 'null' ;;?></td>
+            <td><?php echo (isset($depreciation[$attribution->id_itdevices]))? $depreciation[$attribution->id_itdevices]: 'null' ?></td>
         </tr>
     </table>
 </div>

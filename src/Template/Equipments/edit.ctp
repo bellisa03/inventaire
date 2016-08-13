@@ -17,10 +17,9 @@
             echo $this->Form->input('title', ['label' => 'Type de matériel']);
             echo $this->Form->input('brand', ['label' => 'Marque']);
             echo $this->Form->input('version', ['label' => 'Version']);
-            //echo $this->Form->input('quantity', ['label' => 'Quantité']);
             echo $this->Form->input('description', ['label' => 'Description']);
             echo $this->Form->input('itdevice', ['label' => 'Matériel IT']);
-            echo $this->Form->input('barcode', ['label' => 'Code Barre']);
+            //echo $this->Form->input('barcode', ['label' => 'Code Barre']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Sauvegarder')) ?>

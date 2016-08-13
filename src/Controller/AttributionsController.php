@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Database\Schema\Table;
 use Cake\ORM\TableRegistry;
+use Spacebellisa\excel;
 
 /**
  * Attributions Controller
@@ -264,6 +265,7 @@ class AttributionsController extends AppController
         $this->set($data);
         $this->set('_serialize', ['details']);
     }
+
     /**
      * View method
      *
@@ -282,7 +284,7 @@ class AttributionsController extends AppController
          * Tableau créé pour passer les utilisateurs de la table "users" à la vue
          */
         foreach ($u as $value) {
-            if($value->id == $attribution->id_users)
+            if ($value->id == $attribution->id_users)
                 $user = $value->login;
         }
         /*
@@ -291,10 +293,10 @@ class AttributionsController extends AppController
         $e = TableRegistry::get('equipments')->find('Equipments');
         $i = TableRegistry::get('itDevices')->find('ItDevices');
 
-        foreach($i as $key => $value){
-            if($attribution->id_itdevices == $key){
-                foreach($e as $k => $v){
-                    if($value == $k){
+        foreach ($i as $key => $value) {
+            if ($attribution->id_itdevices == $key) {
+                foreach ($e as $k => $v) {
+                    if ($value == $k) {
                         $itTitle[$key] = $v;
                     }
                 }
@@ -305,8 +307,8 @@ class AttributionsController extends AppController
          */
         $attributionDates = TableRegistry::get('attributions')->find('Dates');
 
-        foreach ($attributionDates as $i=>$dates){
-            foreach ($dates as $key=>$value){
+        foreach ($attributionDates as $i => $dates) {
+            foreach ($dates as $key => $value) {
                 $temp = new \DateTime($value);
                 $newTemp = $temp->format('d-m-Y');
                 $formattedDates[$key][$i] = $newTemp;
@@ -317,8 +319,8 @@ class AttributionsController extends AppController
          */
 
         $date = TableRegistry::get('itDevices')->find('DateDepreciated');
-        foreach($date as $key => $value){
-            if($key == $attribution->id_itdevices){
+        foreach ($date as $key => $value) {
+            if ($key == $attribution->id_itdevices) {
                 $temp = new \DateTime($value);
                 $newTemp = $temp->format('d-m-Y');
                 $depreciation[$key] = $newTemp;
@@ -329,11 +331,12 @@ class AttributionsController extends AppController
         $data['formattedDates'] = $formattedDates;
         $data['user'] = $user;
         $data['itTitle'] = $itTitle;
-        $data['depreciation'] = $depreciation;
+        (isset($depreciation))? $data['depreciation'] = $depreciation: $data['depreciation'] = null;
 
         $this->set($data);
         $this->set('_serialize', ['attribution']);
     }
+
 
     /**
      * Add method

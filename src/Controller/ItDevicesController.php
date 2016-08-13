@@ -163,10 +163,10 @@ class ItDevicesController extends AppController
          */
         $equipments = TableRegistry::get('equipments')->find('Equipments');
         if($equipments){
-            /*
-         * Permet d'afficher uniquement les éléments de la table Equipments qui sont du matériel IT
-         * cf: TableRegistry + les 2 foreach
-         */
+            /**
+            * Permet d'afficher uniquement les éléments de la table Equipments qui sont du matériel IT
+            * cf: TableRegistry + les 2 foreach
+            */
             $itboolean = TableRegistry::get('equipments')->find('ItBoolean');
             if($itboolean){
                 foreach ($equipments as $key => $value){

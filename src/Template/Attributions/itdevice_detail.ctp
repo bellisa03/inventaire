@@ -25,9 +25,9 @@
                 <td><?php echo ($detail->id_itdevices)?$detail->it_device->id:'null'  ?></td>
                 <td><?php echo ($itTitle[$detail->id_itdevices])? $itTitle[$detail->id_itdevices]: 'null' ?></td>
                 <td><?php echo ($detail->id_users)?$detail->user->login:'null' ?></td>
-                <td><?php echo ($detail->date_start)? $formattedDates['date_start'][$detail->id]: 'null';; ?></td>
-                <td><?php echo ($detail->date_end)? $formattedDates['date_end'][$detail->id]: 'null';; ?></td>
-                <td><?php echo (isset($depreciation[$detail->id_itdevices]))? $depreciation[$detail->id_itdevices]: 'null' ;;?></td>
+                <td><?php echo ($detail->date_start)? $formattedDates['date_start'][$detail->id]: 'null'?></td>
+                <td><?php echo ($detail->date_end)? $formattedDates['date_end'][$detail->id]: 'null'?></td>
+                <td><?php echo (isset($depreciation[$detail->id_itdevices]))? $depreciation[$detail->id_itdevices]: 'null' ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('Afficher'), ['action' => 'view', $detail->id]) ?>
                     <?= $this->Html->link(__('Modifier'), ['action' => 'edit', $detail->id]) ?>

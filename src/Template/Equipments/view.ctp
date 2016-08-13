@@ -39,9 +39,9 @@
             <th><?= __('Matériel IT') ?></th>
             <td><?= $equipment->itdevice ? __('Oui') : __('Non'); ?></td>
         </tr>
-        <tr>
-            <th><?= __('Code Barre') ?></th>
-            <td><?= $this->Number->format($equipment->barcode) ?></td>
-        </tr>
+<!--        <tr>-->
+<!--            <th>--><?//= __('Code Barre') ?><!--</th>-->
+<!--            <td>--><?//= $this->Number->format($equipment->barcode) ?><!--</td>-->
+<!--        </tr>-->
     </table>
 </div>

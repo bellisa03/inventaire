@@ -13,7 +13,7 @@
             echo $this->Form->input('version', ['label' => 'Version']);
             echo $this->Form->input('description', ['label' => 'Description']);
             echo $this->Form->input('itdevice', ['label' => 'Matériel IT']);
-            echo $this->Form->input('barcode', ['label' => 'Code Barre (EAN 8)']);
+            //echo $this->Form->input('barcode', ['label' => 'Code Barre (EAN 8)']);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Sauvegarder')) ?>

@@ -174,8 +174,8 @@ class FurnituresController extends AppController
                 foreach ($active as $v){
                     if ($value->id == $v) {
                         $activeFurnitures[] = $value;
-                        $generator = new BarcodeGeneratorPNG();
-                        $barcode[$value->id] = base64_encode($generator->getBarcode($value->barcode,$generator::TYPE_EAN_8));
+                        //$generator = new BarcodeGeneratorPNG();
+                        //$barcode[$value->id] = base64_encode($generator->getBarcode($value->barcode,$generator::TYPE_EAN_8));
                     }
                 }
             }
@@ -227,7 +227,7 @@ class FurnituresController extends AppController
             $sheet->setCellValue('D3', 'Version');
             $sheet->setCellValue('E3', 'Etat');
             $sheet->setCellValue('F3', 'Date d\'achat');
-            $sheet->setCellValue('G3', 'Code barre');
+            //$sheet->setCellValue('G3', 'Code barre');
             $sheet->mergeCells('A1:G1');
             $sheet->mergeCells('A2:G2');
             $sheet->getColumnDimension('B')->setWidth(20);
@@ -235,7 +235,7 @@ class FurnituresController extends AppController
             $sheet->getColumnDimension('D')->setWidth(40);
             $sheet->getColumnDimension('E')->setWidth(15);
             $sheet->getColumnDimension('F')->setWidth(20);
-            $sheet->getColumnDimension('G')->setWidth(40);
+            //$sheet->getColumnDimension('G')->setWidth(40);
 
             $i = 3;
             foreach($activeFurnitures as $activeFurniture)
@@ -248,9 +248,7 @@ class FurnituresController extends AppController
                 $sheet->setCellValue('E'.$i , $activeFurniture->state);
                 $sheet->setCellValue('F'.$i , $formattedDates['date_in'][$activeFurniture->id]);
 
-
-
-                $sheet->setCellValue('G'.$i , $barcode[$activeFurniture->id]);
+                //$sheet->setCellValue('G'.$i , $barcode[$activeFurniture->id]);
                 $sheet->getRowDimension($i)->setRowHeight(50);
             }
 
@@ -266,33 +264,6 @@ class FurnituresController extends AppController
                     'allborders'=>array(
                         'style'=>\PHPExcel_Style_Border::BORDER_THIN))
             ));
-
-//            $sheet->duplicateStyleArray(
-//                array(
-//                    'font'    => array(
-//                        'bold'      => true
-//                    ),
-//                    'alignment' => array(
-//                        'horizontal' => PHPExcel_Style_Alignment::HORIZONTAL_RIGHT,
-//                    ),
-//                    'borders' => array(
-//                        'top'     => array(
-//                            'style' => PHPExcel_Style_Border::BORDER_THIN
-//                        )
-//                    ),
-//                    'fill' => array(
-//                        'type'       => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
-//                        'rotation'   => 90,
-//                        'startcolor' => array(
-//                            'argb' => 'FFA0A0A0'
-//                        ),
-//                        'endcolor'   => array(
-//                            'argb' => 'FFFFFFFF'
-//                        )
-//                    )
-//                ),
-//                'A3:E3'
-//            );
 
             $sheet->getPageSetup()->setPaperSize(\PHPExcel_Worksheet_PageSetup::PAPERSIZE_A4);
             $sheet->getPageSetup()->setOrientation(\PHPExcel_Worksheet_PageSetup::ORIENTATION_LANDSCAPE);
